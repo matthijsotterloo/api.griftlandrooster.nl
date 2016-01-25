@@ -320,6 +320,8 @@ class ZermeloHelper
 	protected function sortGrid(array $grid = array())
 	{
 		$timestamps = array();
+		
+		$before = $grid[0]['start'];
 		foreach ($grid as $key => $node)
 		{
 			if (in_array($node['start'], $timestamps))
@@ -331,6 +333,9 @@ class ZermeloHelper
 			      	 $timestamps[$key] = $node['start'];
 			     }
 			}
+			
+			echo "Starting time: " . $node['start'];
+			echo "Prev starting time: " . $before;
 			
 			if ($node['start'] == $before)
 			{
