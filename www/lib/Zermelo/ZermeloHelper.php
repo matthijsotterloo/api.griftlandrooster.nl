@@ -334,15 +334,10 @@ class ZermeloHelper
 			     }
 			}
 			
-			echo "Starting time: " . $node['start'] . "<br />";
-			echo "Prev starting time: " . $before . "<br /><br />";
-			
 			if ($node['start'] == $before)
 			{
-			     echo "DOUBLE DOUBLE!";
 			     if ($node['cancelled'] == true)
 			     {
-			     	 echo "CANCELLED!";
 			     	 unset($grid[$key]);
 			     } else {
 			     	$timestamps[$key] = $node['start'];
