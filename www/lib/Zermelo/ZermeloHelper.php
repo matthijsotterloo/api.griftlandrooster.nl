@@ -322,7 +322,7 @@ class ZermeloHelper
 		$timestamps = array();
 		
 		$before = null;
-		foreach ($grid as $node)
+		foreach ($grid as $key => $node)
 		{
 			foreach ($node as $i)
 			{
