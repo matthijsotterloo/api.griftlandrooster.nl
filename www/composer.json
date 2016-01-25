@@ -1,0 +1,8 @@
+{
+    "require": {
+        "vlucas/bulletphp": "*"
+    },
+    "autoload": {
+        "classmap": ["lib/"]
+    }
+}
