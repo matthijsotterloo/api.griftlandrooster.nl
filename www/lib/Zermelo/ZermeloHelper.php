@@ -335,28 +335,23 @@ class ZermeloHelper
 			     }
 			     
 			  
-			} else {
-				
-				
-				if ($node['start'] == $before)
-				{
-					
-					print_r($node);
-			     
-				     	if ($node['cancelled'] == true)
-				     	{
-				     	  	
-				     	  	
-				     	 	//echo "Ik heb dit uur weggehaald! Cancelled staat op true, ook is de starttijd " . $node['start'] . " gelijk aan het vorige uur, " . $before . "!";
-				     	 	unset($grid[$key]);
-				     	} else {
-				     		$timestamps[$key] = $node['start'];
-				     	}
-				} else {
-			    		$timestamps[$key] = $node['start'];	
-				}
 			}
 			
+			if ($node['start'] == $before)
+			{
+					
+				print_r($node);
+		     
+			     	if ($node['cancelled'] == true)
+			     	{
+			     	 	//echo "Ik heb dit uur weggehaald! Cancelled staat op true, ook is de starttijd " . $node['start'] . " gelijk aan het vorige uur, " . $before . "!";
+			     	 	unset($grid[$key]);
+			     	} else {
+			     		$timestamps[$key] = $node['start'];
+			     	}
+			} else {
+		    		$timestamps[$key] = $node['start'];	
+			}
 
 			
 			$before = $node['start'];
