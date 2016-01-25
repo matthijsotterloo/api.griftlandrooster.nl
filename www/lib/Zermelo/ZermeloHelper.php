@@ -337,7 +337,7 @@ class ZermeloHelper
 			  
 			}
 			
-			if ($node['start'] == $before)
+			if (in_array($node['start'], $before))
 			{
 					
 				print_r($node);
@@ -354,8 +354,7 @@ class ZermeloHelper
 			}
 
 			
-			$before = $node['start'];
-			echo "Before: " . $before . " ";
+			$before[] = $node['start'];
 			
 		}
 		array_multisort($timestamps, SORT_ASC, $grid);
