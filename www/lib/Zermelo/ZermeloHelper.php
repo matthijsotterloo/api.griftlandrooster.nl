@@ -334,7 +334,7 @@ class ZermeloHelper
 			
 			if ($node['start'] == $before)
 			{
-			     echo "DOUBLE DOUBLE!"
+			     echo "DOUBLE DOUBLE!";
 			     if ($node['cancelled'] == true)
 			     {
 			     	 echo "CANCELLED!";
