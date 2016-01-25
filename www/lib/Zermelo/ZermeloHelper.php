@@ -323,21 +323,31 @@ class ZermeloHelper
 		foreach ($grid as $key => $node)
 		{
 			if (in_array($node['start'], $timestamps))
- 			   {
- 			    if (self::ALLOW_DOUBLE_HOURS == false)
- 			     {
- 			      unset($grid[$key]);
- 			     } else {
- 			      $timestamps[$key] = $node['start'];
- 			     }
- 			     
- 			     if ($node['cancelled'] == true)
- 			     {
- 			      unset($grid[$key]);
- 			     } else {
- 			     $timestamps[$key] = $node['start'];
- 			     }
- 			   }
+			{
+		             if (self::ALLOW_DOUBLE_HOURS == false)
+			     {
+			         unset($grid[$key]);
+			     } else {
+			      	 $timestamps[$key] = $node['start'];
+			     }
+			}
+			
+			if ($node['start'] == $before)
+			{
+			     echo "DOUBLE DOUBLE!"
+			     if ($node['cancelled'] == true)
+			     {
+			     	 echo "CANCELLED!";
+			     	 unset($grid[$key]);
+			     } else {
+			     	$timestamps[$key] = $node['start'];
+			     }
+			} else {
+			    $timestamps[$key] = $node['start'];	
+			}
+			
+			$before = $node['start'];
+			
 		}
 		array_multisort($timestamps, SORT_ASC, $grid);
 		return $grid;
