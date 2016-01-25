@@ -321,7 +321,7 @@ class ZermeloHelper
 	{
 		$timestamps = array();
 		
-		$before = null;
+		$before = $node[0]['start'];
 		foreach ($grid as $key => $node)
 		{
 			if (in_array($node['start'], $timestamps))
