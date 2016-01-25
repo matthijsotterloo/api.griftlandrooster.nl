@@ -334,8 +334,8 @@ class ZermeloHelper
 			     }
 			}
 			
-			echo "Starting time: " . $node['start'];
-			echo "Prev starting time: " . $before;
+			echo "Starting time: " . $node['start'] . "<br />";
+			echo "Prev starting time: " . $before . "<br /><br />";
 			
 			if ($node['start'] == $before)
 			{
