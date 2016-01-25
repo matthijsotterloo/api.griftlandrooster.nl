@@ -330,6 +330,8 @@ class ZermeloHelper
 		foreach ($grid as $key => $node)
 		{
 			
+			print_r($timestamps)
+			
 			if (in_array($node['start'], $timestamps))
 			{
 		             if (self::ALLOW_DOUBLE_HOURS == false)
