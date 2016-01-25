@@ -343,7 +343,7 @@ class ZermeloHelper
 			{
 				if (in_array($node['start'], $timestamps[$key]))
 				{
-					print_r($node);	
+					//print_r($node);	
 					unset($grid[$key]);
 				}
 				
