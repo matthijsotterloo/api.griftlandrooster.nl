@@ -338,6 +338,7 @@ class ZermeloHelper
 			{
 			     if ($node['cancelled'] == true)
 			     {
+			     	 echo "Ik heb dit uur weggehaald! Cancelled staat op true, ook is de starttijd " . $node['start'] . " gelijk aan het vorige uur, " . $before . "!"
 			     	 unset($grid[$key]);
 			     } else {
 			     	$timestamps[$key] = $node['start'];
