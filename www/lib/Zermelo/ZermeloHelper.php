@@ -324,6 +324,7 @@ class ZermeloHelper
 		$before = $node[0]['start'];
 		foreach ($grid as $key => $node)
 		{
+			echo "Before: " . $before . " ";
 			if (in_array($node['start'], $timestamps))
 			{
 		             if (self::ALLOW_DOUBLE_HOURS == false)
@@ -336,7 +337,6 @@ class ZermeloHelper
 			  
 			} else {
 				
-				echo "Before: " . $before;
 				
 				if ($node['start'] == $before)
 				{
