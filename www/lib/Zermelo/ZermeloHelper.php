@@ -336,13 +336,15 @@ class ZermeloHelper
 			  
 			} else {
 				
+				echo "Before: " . $before;
+				
 				if ($node['start'] == $before)
 				{
 			     
 				     	if ($node['cancelled'] == true)
 				     	{
 				     	  	print_r($node);
-				     	  	echo "Before: " . $before;
+				     	  	
 				     	 	//echo "Ik heb dit uur weggehaald! Cancelled staat op true, ook is de starttijd " . $node['start'] . " gelijk aan het vorige uur, " . $before . "!";
 				     	 	unset($grid[$key]);
 				     	} else {
