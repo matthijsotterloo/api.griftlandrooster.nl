@@ -327,13 +327,8 @@ class ZermeloHelper
 			$timestamps[$key] = $node['start'];		
 		}
 		
-		print_r($timestamps);
-		
 		foreach ($grid as $key => $node)
 		{
-			
-			
-			
 			if (in_array($node['start'], $timestamps))
 			{
 		             if (self::ALLOW_DOUBLE_HOURS == false)
@@ -346,20 +341,14 @@ class ZermeloHelper
 
 			if ($node['cancelled'] == true)
 			{
-				if (in_array($node['start'], $timestamps))
+				if (in_array($node['start'], $timestamps[$key]))
 				{
 					print_r($node);	
 					unset($grid[$key]);
 				}
 				
-			     	//echo "Ik heb dit uur weggehaald! Cancelled staat op true, ook is de starttijd " . $node['start'] . " gelijk aan het vorige uur, " . $before . "!";
-			   	
-			} else {
-			     //$timestamps[$key] = $node['start'];
 			}
-			
 
-			
 			$before = $node['start'];
 			
 		}
