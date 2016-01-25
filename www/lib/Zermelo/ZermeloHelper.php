@@ -324,11 +324,7 @@ class ZermeloHelper
 		$before = null;
 		foreach ($grid as $key => $node)
 		{
-			foreach ($node as $i)
-			{
-				$timestamps[] = $i['start'];		
-			}
-			
+			$timestamps[$key] = $node['start'];		
 		}
 		
 		print_r($timestamps);
