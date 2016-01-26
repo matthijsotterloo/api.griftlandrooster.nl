@@ -337,8 +337,6 @@ class ZermeloHelper
 			$timestamps[$key] = $node['start'];		
 		}
 		
-		$i = 0;
-		
 		foreach ($grid as $key => $node)
 		{
 			
@@ -349,11 +347,11 @@ class ZermeloHelper
  			     {
  			      unset($grid[$key]);
  			     } else {
- 			      $timestamps[$key] = $node['start'];
+ 			     // $timestamps[$key] = $node['start'];
  			     }
  			     
  			   } else {
- 			   	$timestamps[$key] = $node['start'];
+ 			   	//$timestamps[$key] = $node['start'];
  			   }
 
 			$before = $node;
@@ -361,10 +359,11 @@ class ZermeloHelper
 		}
 		array_multisort($timestamps, SORT_ASC, $grid);
 		
-		$i = $i + 1;
+		$i = 0;
 		
 		foreach ($grid as $key => $node)
 		{
+			$i = $i + 1;
 			if ($node['cancelled'] == true)
  			{
  			     	if ($grid[$i - 1]['start'] == $node['start'])
