@@ -366,11 +366,11 @@ class ZermeloHelper
 			$i = $i + 1;
 			if ($node['cancelled'] == true)
  			{
- 			     	if ($grid[$i - 1]['start'] == $node['start'])
+ 			     	if ($grid[$i - 2]['start'] == $node['start'])
  			     	{
  			     	    print_r($node);
- 			     	    echo $grid[$i - 1]['start'] . " : " . $node['start'];
- 			     	    print_r($grid[$i - 1]);
+ 			     	    echo $grid[$i - 2]['start'] . " : " . $node['start'];
+ 			     	    print_r($grid[$i - 2]);
  			     	}
  			}
 		}
