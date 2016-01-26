@@ -340,7 +340,7 @@ class ZermeloHelper
  			     
  			     if ($node['cancelled'] == true)
  			     {
- 			      unset($grid[$key]);
+ 			      //unset($grid[$key]);
  			     } else {
  			     $timestamps[$key] = $node['start'];
  			     }
