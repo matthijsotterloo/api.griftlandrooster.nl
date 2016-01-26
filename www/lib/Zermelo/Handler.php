@@ -1,7 +1,6 @@
 <?php
 /*
- * Copyright 2015 Scholica V.O.F.
- * Created by Matthijs Otterloo
+ * Copyright 2015 Matthijs Otterloo.
  */
 
 namespace Zermelo;
@@ -33,16 +32,16 @@ class Handler implements \Core\Handler {
         $this->zermelo = new ZermeloHelper($siteID);
         $this->zermelo->grabAccessToken($username, $password);
     }
-    
+
     function getSchools(){
 	    $domains = json_decode(file_get_contents('lib/Assets/zportal-domains.json'));
-	    
+
 	    $portals = array();
 	    foreach($domains as $domain){
 		    $domain = str_replace('.zportal.nl','', $domain);
 		    $portals[] = array('site' => $domain, 'title' => strlen($domain) < 5 ? strtoupper($domain) : ucfirst($domain));
 	    }
-	    
+
 	    return array('sites' => $portals);
     }
 
@@ -80,10 +79,6 @@ class Handler implements \Core\Handler {
         return $info;
     }
 
-	function getUserPicture(){
-		return 404;
-	}
-
     /**
      * Get weekly shedule for a particular day
      *
@@ -91,6 +86,7 @@ class Handler implements \Core\Handler {
      * @return array
      */
     function getSchedule($timestamp) {
+
         if(!$this->zermelo->token){
             return 403;
         }
@@ -117,12 +113,12 @@ class Handler implements \Core\Handler {
                 'day_ofweek' => (int)date('w', $curday),
                 'items' => array()
             );
-		
-		$start = $curday; 
+
+		$start = $curday;
 		$end = $curday + 86399;
         $data = $this->zermelo->getStudentGrid($start, $end);
-           
-            	foreach($data as $item){
+
+            foreach($data as $item){
 	            $item = (object)$item;
 	            $start = ((int)$item->start);
                 $vakname = isset($subjects[$item->subjects[0]]) ? $subjects[$item->subjects[0]] : $item->subjects[0];
@@ -131,11 +127,13 @@ class Handler implements \Core\Handler {
                 $moved  = $item->moved;
                 $cancelled = $item->cancelled;
                 $changed = $item->modified;
-                
+
                 $teacher = preg_replace('/^.*-\s*/', '', $teacher);
-				if(empty($item->locations)){
+
+                if(empty($item->locations)){
 					$item->locations = array('onbekend');
 				}
+
                 $result['days'][$curwd]['items'][] = array(
                     'title' => $vakname,
                     'subtitle' => 'Lokaal ' . $item->locations[0],
@@ -148,7 +146,6 @@ class Handler implements \Core\Handler {
             }
             $curday += 86400;
 		}
-		
         return $result;
     }
 
@@ -173,5 +170,4 @@ class Handler implements \Core\Handler {
         $monday = mktime(0, 0, 0, 1, 1 + $offset, $year);
         return strtotime('+' . ($weeknr - 1) . ' weeks', $monday);
     }
-
 }

@@ -1,17 +1,14 @@
 <?php
 /*
- * Copyright 2015 Scholica V.O.F.
- * Created by Thomas Schoffelen
+ * Copyright 2015 Matthijs Otterloo.
  */
 
 if (isset($app) && isset($handler)) {
 
 	// Path: /_schools
-	if(is_callable(array($handler, 'getSchools'))){
-	    $app->path('_schools', function () use ($app, $handler) {
-	        return $handler->getSchools();
-	    });
-    }
+	$app->path('_schools', function () use ($app, $handler) {
+	    return $handler->getSchools();
+	});
 
     $app->param('slug', function ($request, $site) use ($app, $handler) {
         $app->param('ctype_print', function ($request, $username) use ($app, $site, $handler) {
@@ -23,32 +20,11 @@ if (isset($app) && isset($handler)) {
                 $app->path('user', function () use ($app, $handler) {
                     return $handler->getUserInfo();
                 });
-                
-                 // Path: /:site/:username/:password/grades
-                if(is_callable(array($handler, 'getGrades'))){
-	                $app->path('grades', function () use ($app, $handler) {
-	                    return $handler->getGrades();
-	                });
-                }
 
                 // Path: /:site/:username/:password/homework
-                if(is_callable(array($handler, 'getHomework'))){
-	                $app->path('homework', function () use ($app, $handler) {
-	                    return $handler->getHomework();
-	                });
-                }
-
-                // Path: /:site/:username/:password/picture
-                $app->path('picture', function () use ($app, $handler) {
-                    $pic = $handler->getUserPicture();
-                    if(is_string($pic)) {
-                        header('Content-Type: image/jpeg');
-                        echo $handler->getUserPicture();
-                        die();
-                    }else{
-                        return $pic;
-                    }
-                });
+                // $app->path('homework', function () use ($app, $handler) {
+                //     return $handler->getHomework();
+                // });
 
                 // Path: /:site/:username/:password/meetings/:timestamp
                 $app->path('meetings', function () use ($app, $handler) {

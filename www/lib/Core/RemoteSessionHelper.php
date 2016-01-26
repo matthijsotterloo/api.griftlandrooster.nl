@@ -1,7 +1,6 @@
 <?php
 /*
- * Copyright 2015 Scholica V.O.F.
- * Created by Thomas Schoffelen
+ * Copyright 2015 Matthijs Otterloo.
  */
 
 namespace Core;

@@ -1,7 +1,6 @@
 <?php
 /*
- * Copyright 2015 Scholica V.O.F.
- * Created by Matthijs Otterloo
+ * Copyright 2015 Matthijs Otterloo.
  */
 
 namespace Zermelo;
@@ -24,14 +23,14 @@ class ZermeloHelper
 	 * @var boolean
 	 */
 	private $secure;
-	
+
 	public $token;
-	
+
 	/**
   	 * Allow double hours to be listed in the grid, default is false
      */
     const ALLOW_DOUBLE_HOURS = true;
-	
+
 	/**
 	 * Construct a new Zermelo instance, by any given school
 	 *
@@ -95,7 +94,7 @@ class ZermeloHelper
 		}
 		return array();
 	}
-	
+
 	/**
 	 * Get all classes of a specific school subject in a grid
 	 * @param  string $grid    The containing grid
@@ -106,7 +105,7 @@ class ZermeloHelper
 	{
 		return $this->getGridPortion($grid, 'subjects', $subject);
 	}
-	
+
 	/**
 	 * Resolves all classes of a specific teacher in a grid
 	 * @param  string $grid    The containing grid
@@ -117,7 +116,7 @@ class ZermeloHelper
 	{
 		return $this->getGridPortion($grid, 'teachers', $teacher);
 	}
-	
+
 	/**
 	 * Resolves all cancelled classes in a grid
 	 * @param  string $grid The containing grid
@@ -127,13 +126,13 @@ class ZermeloHelper
 	{
 		return $this->getGridPortion($grid, 'cancelled', 1);
 	}
-	
+
 	/**
 	 * Get announcements, by looking forward in weeks
 	 * @param  string  $id    The student id
 	 * @param  integer $weeks The weeks to look forward
 	 * @return array         The announcements
-	 */ 
+	 */
 	public function getAnnouncementsAhead($id, $weeks = 1)
 	{
 		if ($weeks == 1)
@@ -146,7 +145,7 @@ class ZermeloHelper
 		}
 		return $this->getAnnouncements($id, $start, $end);
 	}
-	
+
 	/**
 	 * Get all of the user announcements
 	 * @param  string $id    The student id
@@ -171,7 +170,7 @@ class ZermeloHelper
 		}
 		return null;
 	}
-	
+
 	public function getPerson(){
 		$raw = $this->callApi('api/v2/users/~me', array('access_token'=> $this->token));
 		$json = json_decode($raw, true)['response'];
@@ -185,10 +184,10 @@ class ZermeloHelper
 				'status' => $json['status']
 			);
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Grab a access token from the Zermelo API
 	 * @param  string  $username Username
@@ -204,13 +203,13 @@ class ZermeloHelper
 			$this->token = $token;
 			return $token;
 		}
-		
+
 		// Get authorization code
 		$raw = $this->callApiPostHeaders("api/v2/oauth", array(
-			'username' => $username, 
-			'password' => $password, 
-			'client_id' => 'OAuthPage', 
-			'redirect_uri' => '/main/----success----', 
+			'username' => $username,
+			'password' => $password,
+			'client_id' => 'OAuthPage',
+			'redirect_uri' => '/main/----success----',
 			'scope' => '', // must be empty
 			'state' => '', // must be empty
 			'response_type' => 'code'
@@ -219,31 +218,31 @@ class ZermeloHelper
 			return;
 		}
 		$code = str_replace(' ', '', $matches[1]);
-		
+
 		// Get access token from authoorization code
 		$raw = $this->callApiPost("api/v2/oauth/token", array('grant_type' => 'authorization_code', 'code' => $code));
 		if (strpos($raw, 'Error report') !== false){
 			return;
 		}
 		$json = json_decode($raw, true);
-		
+
 		// Save to cache
 		if ($saveToken && !empty($json['access_token'])){
 			$this->getCache()->saveToken($tokenId, $json['access_token']);
 		}
-		
+
 		// Set on current object
 		$this->token = $json['access_token'];
 		return $this->token;
 	}
-	
+
 	/**
      * Get token Id for user
      */
 	private function tokenId($username, $password){
 		return sha1($this->school . ':' . $username . ':' . $password . '_' . floor(time()/9000));
 	}
-	
+
 	/**
 	 * Set the school to use
 	 * @param string $school School to use
@@ -252,7 +251,7 @@ class ZermeloHelper
 	{
 		$this->school = strtolower($school);
 	}
-	
+
 	/**
 	 * Set the secure state of the application
 	 * @param string $secure The state boolean
@@ -261,7 +260,7 @@ class ZermeloHelper
 	{
 		$this->secure = $secure;
 	}
-	
+
 	/**
 	 * Validate the grid data received from the Zermelo API
 	 * @param  array $data The grid data to validate
@@ -312,14 +311,14 @@ class ZermeloHelper
 		}
 		return $grid;
 	}
-	
+
 	protected function in_array_r($needle, $haystack, $strict = false) {
 	    foreach ($haystack as $item) {
 	        if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->in_array_r($needle, $item, $strict))) {
 	            return true;
 	        }
 	    }
-	
+
 	    return false;
 	}
 	/**
@@ -330,7 +329,7 @@ class ZermeloHelper
 	protected function sortGrid(array $grid = array())
 	{
 		$timestamps = $this->buildTimestampArray($grid);
-		
+
 		foreach ($grid as $key => $node)
 		{
 			if (in_array($node['start'], $timestamps))
@@ -341,20 +340,20 @@ class ZermeloHelper
  			     } else {
  			         // $timestamps[$key] = $node['start'];
  			     }
- 			     
+
  			 } else {
  			   	//$timestamps[$key] = $node['start'];
  			 }
-			
+
 		}
 		array_multisort($timestamps, SORT_ASC, $grid);
-		
+
 		$i = 0;
-		
+
 		foreach ($grid as $key => $node)
 		{
 			$i = $i + 1;
-			
+
 			if ($node['cancelled'] == true)
  			{
  			     	if ($grid[$i - 2]['start'] == $node['start'])
@@ -363,22 +362,22 @@ class ZermeloHelper
  			     	}
  			}
 		}
-		
+
 		return $grid;
 	}
-	
+
 	protected function buildTimestampArray($grid)
 	{
 		$timestamps = array();
-		
+
 		foreach ($grid as $key => $node)
 		{
-		     $timestamps[$key] = $node['start'];		
+		     $timestamps[$key] = $node['start'];
 		}
-		
+
 		return $timestamps;
 	}
-	
+
 	protected function getGridPortion($grid, $identifier, $search)
 	{
 		$classes = array();
@@ -548,7 +547,7 @@ class ZermeloHelper
 		curl_close($ch);
 		return $result;
 	}
-	
+
 	/**
 	 * Call the API by using the HTTP POST method and return response headers
 	 * @param  string $uri        Uri to interact

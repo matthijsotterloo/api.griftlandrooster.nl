@@ -1,8 +1,8 @@
 <?php
 /*
- * Copyright 2015 Scholica V.O.F.
- * Created by Matthijs Otterloo
+ * Copyright 2015 Matthijs Otterloo.
  */
+
 namespace Zermelo;
 use Exception;
 /**
@@ -69,12 +69,12 @@ class Cache
 		{
 			if (!$file = @fopen($location, 'rw'))
 			{
-				throw new \Exception("Cache file " . $location . " does not exists! I tried to create it manually, but this failed");
+				throw new \Exception("Cache file " . $location . " does not exists!");
 			}
 
 			if (!@fwrite($file, "{}"))
 			{
-				throw new \Exception("Cache file " . $location . " does not exists! I tried to create it manually, but this failed");
+				throw new \Exception("Cache file " . $location . " does not exists!");
 			}
 
 			// Successfully created the cache file
