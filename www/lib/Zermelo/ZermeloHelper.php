@@ -341,7 +341,7 @@ class ZermeloHelper
 		
 		foreach ($grid as $key => $node)
 		{
-			$i = $i + 1;
+			
 			
 			if (in_array($node['start'], $timestamps))
  			   {
@@ -352,24 +352,30 @@ class ZermeloHelper
  			      $timestamps[$key] = $node['start'];
  			     }
  			     
- 			     if ($node['cancelled'] == true)
- 			     {
- 			     	if ($grid[$i - 1]['start'] == $node['start'])
- 			     	{
- 			     	    print_r($node);
- 			     	    echo $grid[$i - 1]['start'] . " : " . $node['start'];
- 			     	    print_r($grid[$i - 1]);
- 			     	}
- 			      //unset($grid[$key]);
- 			     } else {
- 			     $timestamps[$key] = $node['start'];
- 			     }
+ 			   } else {
+ 			   	$timestamps[$key] = $node['start'];
  			   }
 
 			$before = $node;
 			
 		}
 		array_multisort($timestamps, SORT_ASC, $grid);
+		
+		$i = $i + 1;
+		
+		foreach ($grid as $key => $node)
+		{
+			if ($node['cancelled'] == true)
+ 			{
+ 			     	if ($grid[$i - 1]['start'] == $node['start'])
+ 			     	{
+ 			     	    print_r($node);
+ 			     	    echo $grid[$i - 1]['start'] . " : " . $node['start'];
+ 			     	    print_r($grid[$i - 1]);
+ 			     	}
+ 			}
+		}
+		
 		return $grid;
 	}
 	protected function getGridPortion($grid, $identifier, $search)
