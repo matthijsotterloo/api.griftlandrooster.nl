@@ -312,6 +312,16 @@ class ZermeloHelper
 		}
 		return $grid;
 	}
+	
+	protected function in_array_r($needle, $haystack, $strict = false) {
+	    foreach ($haystack as $item) {
+	        if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && in_array_r($needle, $item, $strict))) {
+	            return true;
+	        }
+	    }
+	
+	    return false;
+	}
 	/**
 	 * Sort a grid by timestamp
 	 * @param  array  $grid The grid to sort
@@ -340,7 +350,7 @@ class ZermeloHelper
  			     
  			     if ($node['cancelled'] == true)
  			     {
- 			     	if ($before['start'] == $node['start'])
+ 			     	if ($this->in_array_r($node['start'], $grid))
  			     	{
  			     		print_r($before);
  			     	}
