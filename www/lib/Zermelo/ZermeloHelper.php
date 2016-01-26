@@ -320,24 +320,37 @@ class ZermeloHelper
 	protected function sortGrid(array $grid = array())
 	{
 		$timestamps = array();
+		
+		$before = null;
+		foreach ($grid as $key => $node)
+		{
+			$timestamps[$key] = $node['start'];		
+		}
+		
 		foreach ($grid as $key => $node)
 		{
 			if (in_array($node['start'], $timestamps))
- 			   {
- 			    if (self::ALLOW_DOUBLE_HOURS == false)
- 			     {
- 			      unset($grid[$key]);
- 			     } else {
- 			      $timestamps[$key] = $node['start'];
- 			     }
- 			     
- 			     if ($node['cancelled'] == true)
- 			     {
- 			      unset($grid[$key]);
- 			     } else {
- 			     $timestamps[$key] = $node['start'];
- 			     }
- 			   }
+			{
+		             if (self::ALLOW_DOUBLE_HOURS == false)
+			     {
+			         unset($grid[$key]);
+			     } else {
+			      	 //$timestamps[$key] = $node['start'];
+			     }
+			}
+
+			if ($node['cancelled'] == true)
+			{
+				if (in_array($node['start'], $timestamps[$key]))
+				{
+					//print_r($node);	
+					unset($grid[$key]);
+				}
+				
+			}
+
+			$before = $node['start'];
+			
 		}
 		array_multisort($timestamps, SORT_ASC, $grid);
 		return $grid;
