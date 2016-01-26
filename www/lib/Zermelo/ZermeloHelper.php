@@ -356,7 +356,8 @@ class ZermeloHelper
  			     {
  			     	if ($grid[$i - 1]['start'] == $node['start'])
  			     	{
- 			     		print_r($grid[$i - 1]);
+ 			     	    echo $grid[$i - 1]['start'] . " : " . $node['start'];
+ 			     	    print_r($grid[$i - 1]);
  			     	}
  			      //unset($grid[$key]);
  			     } else {
