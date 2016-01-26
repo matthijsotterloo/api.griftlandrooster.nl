@@ -337,8 +337,12 @@ class ZermeloHelper
 			$timestamps[$key] = $node['start'];		
 		}
 		
+		$i = 0;
+		
 		foreach ($grid as $key => $node)
 		{
+			$i = $i + 1;
+			
 			if (in_array($node['start'], $timestamps))
  			   {
  			    if (self::ALLOW_DOUBLE_HOURS == false)
@@ -350,9 +354,9 @@ class ZermeloHelper
  			     
  			     if ($node['cancelled'] == true)
  			     {
- 			     	if ($this->in_array_r($node['start'], $grid))
+ 			     	if ($grid[$i - 1]['start'] == $node['start'])
  			     	{
- 			     		print_r($before);
+ 			     		print_r($grid[$i - 1]);
  			     	}
  			      //unset($grid[$key]);
  			     } else {
