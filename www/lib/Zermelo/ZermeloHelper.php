@@ -340,13 +340,17 @@ class ZermeloHelper
  			     
  			     if ($node['cancelled'] == true)
  			     {
+ 			     	if ($before['start'] == $node['start'])
+ 			     	{
+ 			     		print_r($before);
+ 			     	}
  			      //unset($grid[$key]);
  			     } else {
  			     $timestamps[$key] = $node['start'];
  			     }
  			   }
 
-			$before = $node['start'];
+			$before = $node;
 			
 		}
 		array_multisort($timestamps, SORT_ASC, $grid);
