@@ -329,32 +329,22 @@ class ZermeloHelper
 	 */
 	protected function sortGrid(array $grid = array())
 	{
-		$timestamps = array();
-		
-		$before = null;
-		foreach ($grid as $key => $node)
-		{
-			$timestamps[$key] = $node['start'];		
-		}
+		$timestamps = $this->buildTimestampArray($grid);
 		
 		foreach ($grid as $key => $node)
 		{
-			
-			
 			if (in_array($node['start'], $timestamps))
- 			   {
- 			    if (self::ALLOW_DOUBLE_HOURS == false)
+ 			{
+ 			     if (self::ALLOW_DOUBLE_HOURS == false)
  			     {
- 			      unset($grid[$key]);
+ 			         unset($grid[$key]);
  			     } else {
- 			     // $timestamps[$key] = $node['start'];
+ 			         // $timestamps[$key] = $node['start'];
  			     }
  			     
- 			   } else {
+ 			 } else {
  			   	//$timestamps[$key] = $node['start'];
- 			   }
-
-			$before = $node;
+ 			 }
 			
 		}
 		array_multisort($timestamps, SORT_ASC, $grid);
@@ -364,20 +354,31 @@ class ZermeloHelper
 		foreach ($grid as $key => $node)
 		{
 			$i = $i + 1;
+			
 			if ($node['cancelled'] == true)
  			{
  			     	if ($grid[$i - 2]['start'] == $node['start'])
  			     	{
  			     	    unset($grid[$key]);
- 			     	    print_r($node);
- 			     	    //echo $grid[$i - 2]['start'] . " : " . $node['start'];
- 			     	    print_r($grid[$i - 2]);
  			     	}
  			}
 		}
 		
 		return $grid;
 	}
+	
+	protected function buildTimestampArray($grid)
+	{
+		$timestamps = array();
+		
+		foreach ($grid as $key => $node)
+		{
+		     $timestamps[$key] = $node['start'];		
+		}
+		
+		return $timestamps;
+	}
+	
 	protected function getGridPortion($grid, $identifier, $search)
 	{
 		$classes = array();
