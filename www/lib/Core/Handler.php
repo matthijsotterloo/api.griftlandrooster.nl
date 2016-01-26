@@ -31,13 +31,6 @@ interface Handler {
     function getUserInfo();
 
     /**
-     * Get user picture
-     *
-     * @return string
-     */
-    function getUserPicture();
-
-    /**
      * Get weekly shedule for a particular day
      *
      * @param $timestamp
