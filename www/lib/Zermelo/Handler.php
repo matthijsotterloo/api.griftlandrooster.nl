@@ -154,11 +154,13 @@ class Handler implements \Core\Handler {
             	$t = $day['items'][0]['start_str'];
             	$free_hours = array();
             	
+            	print_r('day\n');
             	foreach ($times as $time)
             	{
-            		print_r("Executed loop");
+            		print_r("loop\n");
             		if ($time != $t)
             		{
+            			print_r("no_class\n");
             			$free_hour = new \stdClass();
             			$free_hour->title = 'Geen les';
             			$free_hours[] = $free_hour;
