@@ -95,7 +95,8 @@ class Handler implements \Core\Handler {
         $break_times = array('10:30', '13:00');
 
         $subjects = (array) json_decode(file_get_contents('lib/Assets/subjects.json'));
-
+	
+	$tz = timezone_open('Europe/Amsterdam');
         $tz_offset = timezone_offset_get($tz, new \DateTime('@'.$timestamp, timezone_open('UTC')));
 
         $timestamp += $tz_offset+4;
