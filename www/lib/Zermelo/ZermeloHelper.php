@@ -171,6 +171,9 @@ class ZermeloHelper
 		return null;
 	}
 
+	/**
+	 * Get someones contact details
+	 */
 	public function getPerson(){
 		$raw = $this->callApi('api/v2/users/~me', array('access_token'=> $this->token));
 		$json = json_decode($raw, true)['response'];
