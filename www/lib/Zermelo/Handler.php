@@ -155,15 +155,22 @@ class Handler implements \Core\Handler {
 	            	{
             			$t = $item['start_str'];
             		
+            			$i = 0;
+            		
             			if ((strtotime($t) - 1800) == strtotime($break_time))
             			{
-            				echo "Tijd: $t Break tijd $break_time";
+            				if ($i < 1)
+            				{
+            				      echo "Tijd: $t Break tijd $break_time";
             				
-	            			$day_item = array(
-	            				'title' => 'Pauze',
-	            				'start_str' => $break_time
+	            				$day_item = array(
+	            						'title' => 'Pauze',
+	            					'start_str' => $break_time
 	            				);
-            				$day_items[] = $day_item;
+            					$day_items[] = $day_item;	
+            				}
+
+            				$i = $i + 1;
             			}
             			$day_items[] = $item;
 	            	}
