@@ -184,6 +184,7 @@ class Handler implements \Core\Handler {
 	            				);
             				$day_items[] = $day_item;
             			}
+            			echo $i;
             			$day_items[] = $item;
 	            	}
             	}
