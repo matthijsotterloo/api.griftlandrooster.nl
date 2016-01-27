@@ -118,9 +118,7 @@ class Handler implements \Core\Handler {
 
 		$start = $curday;
 		$end = $curday + 86399;
-        $data = $this->zermelo->getStudentGrid($start, $end);
-        // // EXPERIMENTAL @wvanbreukelen
-        // $this->zermelo->resolveFreehours($data);
+        	$data = $this->zermelo->getStudentGrid($start, $end);
 
             foreach($data as $item){
 	        $item = (object)$item;
