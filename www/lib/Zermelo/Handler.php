@@ -155,7 +155,7 @@ class Handler implements \Core\Handler {
 	            	{
             			$t = $item['start_str'];
             		
-            			if ($t > $break_time)
+            			if ($t == $break_time || ($t + 30) == $break_time || ($t - 30) == $break_time)
             			{
             				echo "Tijd: $t Break tijd $break_time";
             				
