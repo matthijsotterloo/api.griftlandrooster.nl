@@ -155,11 +155,11 @@ class Handler implements \Core\Handler {
 	            	{
             			$t = $item['start_str'];
             		
-            			$i = 0;
+            			$i = null;
             		
             			if ($t > $break_time)
             			{
-            				if ($i < 1)
+            				if ($i != $t)
             				{
             				      echo "Tijd: $t Break tijd $break_time";
             				
@@ -170,7 +170,7 @@ class Handler implements \Core\Handler {
             					$day_items[] = $day_item;	
             				}
 
-            				$i = $i + 1;
+            				$i = $t;
             			}
             			$day_items[] = $item;
 	            	}
