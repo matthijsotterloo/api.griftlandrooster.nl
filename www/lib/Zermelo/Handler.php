@@ -171,7 +171,6 @@ class Handler implements \Core\Handler {
             
             $curday += 86400;
 		}
-	print_r($result);
         return $result;
     }
 
