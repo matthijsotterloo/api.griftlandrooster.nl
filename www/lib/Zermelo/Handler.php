@@ -187,6 +187,7 @@ class Handler implements \Core\Handler {
             			} else {
             				$day_items[] = $item;	
             			}
+					}
             	}
             	$result['days'][$i]['items'] = $day_items;
             }
