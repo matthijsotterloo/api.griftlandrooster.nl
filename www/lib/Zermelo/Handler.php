@@ -172,25 +172,25 @@ class Handler implements \Core\Handler {
             	
             	// Breaks.
             	$day_items = array();
-            	foreach ($break_times as $break_time)
-            	{
+            	
 	            	foreach ($day['items'] as $item)
 	            	{
-            			$t = $item['start_str'];
-            			//echo $t;
-            			// $t > $break_time
-            			if ($t == $break_time)
+	            		foreach ($break_times as $break_time)
             			{
-	            			$day_item = array(
-	            				'title' => 'Pauze',
-	            				'start_str' => $break_time
-	            			);
-            				$day_items[] = $day_item;
-            			}
-            			$day_items[] = $item;	
-			}
+	            			$t = $item['start_str'];
+	            			
+	            			if ($t > $break_time)
+	            			{
+		            			$day_item = array(
+		            				'title' => 'Pauze',
+		            				'start_str' => $break_time
+		            			);
+	            				$day_items[] = $day_item;
+	            			}
+	            			$day_items[] = $item;	
+				}
 			
-            	}
+            		}
             	$result['days'][$i]['items'] = $day_items;
             }
             
