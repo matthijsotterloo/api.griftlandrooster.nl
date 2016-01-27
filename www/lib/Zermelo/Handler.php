@@ -157,7 +157,7 @@ class Handler implements \Core\Handler {
             		
             			$i = 0;
             		
-            			if ((strtotime($t) - 1800) == strtotime($break_time))
+            			if ($t > $break_time)
             			{
             				if ($i < 1)
             				{
