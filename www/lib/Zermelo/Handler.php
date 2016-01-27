@@ -173,10 +173,11 @@ class Handler implements \Core\Handler {
             	// Breaks.
             	$day_items = array();
             	
+            	foreach ($break_times as $break_time)
+            	{
 	            	foreach ($day['items'] as $item)
 	            	{
-	            		foreach ($break_times as $break_time)
-            			{
+	            		
 	            			$t = $item['start_str'];
 	            			
 	            			if ($t > $break_time)
@@ -188,9 +189,9 @@ class Handler implements \Core\Handler {
 	            				$day_items[] = $day_item;
 	            			}
 	            			$day_items[] = $item;	
-				}
+			}
 			
-            		}
+            	}
             	$result['days'][$i]['items'] = $day_items;
             }
             
