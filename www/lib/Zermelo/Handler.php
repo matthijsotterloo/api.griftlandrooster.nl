@@ -90,6 +90,8 @@ class Handler implements \Core\Handler {
         if(!$this->zermelo->token){
             return 403;
         }
+        
+        $times = array('08:30', '09:30', '11:00', '12:00', '13:00', '13:30', '14:30', '15:30');
 
         $subjects = (array) json_decode(file_get_contents('lib/Assets/subjects.json'));
 
@@ -116,11 +118,11 @@ class Handler implements \Core\Handler {
 
 		$start = $curday;
 		$end = $curday + 86399;
-        $data = $this->zermelo->getStudentGrid($start, $end);
+        	$data = $this->zermelo->getStudentGrid($start, $end);
 
             foreach($data as $item){
-	            $item = (object)$item;
-	            $start = ((int)$item->start);
+	        $item = (object)$item;
+	        $start = ((int)$item->start);
                 $vakname = isset($subjects[$item->subjects[0]]) ? $subjects[$item->subjects[0]] : $item->subjects[0];
                 $teacher = $item->teachers[0];
                 $cancelled = $item->cancelled;
@@ -131,8 +133,8 @@ class Handler implements \Core\Handler {
                 $teacher = preg_replace('/^.*-\s*/', '', $teacher);
 
                 if(empty($item->locations)){
-					$item->locations = array('onbekend');
-				}
+			$item->locations = array('onbekend');
+		}
 
                 $result['days'][$curwd]['items'][] = array(
                     'title' => $vakname,
@@ -144,6 +146,27 @@ class Handler implements \Core\Handler {
                     'start_str' => date('H:i', $start)
                 );
             }
+            
+            foreach($result['days'] as $i => $day)
+            {
+            	$t = $day['items'][0]['start_str'];
+            	$free_hours = array();
+            	
+            	foreach ($times as $time)
+            	{
+            		if ($time != $t)
+            		{
+            			$free_hour = new \stdClass();
+            			$free_hour->title = 'Geen les';
+            			$free_hour->start_str = $time;
+            			$free_hours[] = $free_hour;
+            		}
+            		else
+            			break;
+            	}
+            	$result['days'][$i]['items'] = array_merge($free_hours, $day['items']);
+            }
+            
             $curday += 86400;
 		}
         return $result;
