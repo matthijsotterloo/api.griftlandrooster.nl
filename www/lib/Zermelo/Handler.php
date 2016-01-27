@@ -156,6 +156,7 @@ class Handler implements \Core\Handler {
             	
             	foreach ($times as $time)
             	{
+            		print_r("Executed loop");
             		if ($time != $t)
             		{
             			$free_hour = new \stdClass();
