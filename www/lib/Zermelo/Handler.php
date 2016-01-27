@@ -149,7 +149,7 @@ class Handler implements \Core\Handler {
                 );
             }
             
-            foreach($result['days'] as $day)
+            foreach($result['days'] as $i => $day)
             {
             	$t = $day['items'][0]['start_str'];
             	$free_hours = array();
@@ -166,12 +166,12 @@ class Handler implements \Core\Handler {
             		else
             			break;
             	}
-            	$day['items'] = array_merge($free_hours, $day['items']);
+            	$result['days'][$i]['items'] = array_merge($free_hours, $day['items']);
             }
             
             $curday += 86400;
 		}
-		print_r($result);
+	print_r($result);
         return $result;
     }
 
