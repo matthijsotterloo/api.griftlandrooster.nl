@@ -189,9 +189,9 @@ class Handler implements \Core\Handler {
 	            			}
 	            			$day_items[] = $item;	
 				}
-			
+				$result['days'][$i]['items'] = $day_items;
             		}
-            	$result['days'][$i]['items'] = $day_items;
+            	
             }
             
             $curday += 86400;
