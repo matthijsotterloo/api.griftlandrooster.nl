@@ -160,17 +160,18 @@ class Handler implements \Core\Handler {
             		{
             			$free_hour = new \stdClass();
             			$free_hour->title = 'Geen les';
+            			$free_hour->start_str = $time;
             			$free_hours[] = $free_hour;
             		}
             		else
             			break;
             	}
-            	$day['items'] = array_merge($day['items'], $free_hours);
-            	print_r($day['items']);
+            	$day['items'] = array_merge($free_hours, $day['items']);
             }
             
             $curday += 86400;
 		}
+		print_r($result);
         return $result;
     }
 
