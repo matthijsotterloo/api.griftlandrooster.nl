@@ -151,7 +151,7 @@ class Handler implements \Core\Handler {
             
             foreach($result['days'] as $day)
             {
-            	$t = $day['items'][0]->start_str;
+            	$t = $day['items'][0]['start_str'];
             	$free_hours = array();
             	
             	foreach ($times as $time)
