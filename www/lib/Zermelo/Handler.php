@@ -118,37 +118,37 @@ class Handler implements \Core\Handler {
 		$end = $curday + 86399;
         $data = $this->zermelo->getStudentGrid($start, $end);
         // EXPERIMENTAL @wvanbreukelen
-  //      $this->zermelo->resolveFreehours($data);
+        $this->zermelo->resolveFreehours($data);
 
-  //          foreach($data as $item){
-	 //           $item = (object)$item;
-	 //           $start = ((int)$item->start);
-  //              $vakname = isset($subjects[$item->subjects[0]]) ? $subjects[$item->subjects[0]] : $item->subjects[0];
-  //              $teacher = $item->teachers[0];
-  //              $cancelled = $item->cancelled;
-  //              $moved  = $item->moved;
-  //              $cancelled = $item->cancelled;
-  //              $changed = $item->modified;
+            foreach($data as $item){
+	            $item = (object)$item;
+	            $start = ((int)$item->start);
+                $vakname = isset($subjects[$item->subjects[0]]) ? $subjects[$item->subjects[0]] : $item->subjects[0];
+                $teacher = $item->teachers[0];
+                $cancelled = $item->cancelled;
+                $moved  = $item->moved;
+                $cancelled = $item->cancelled;
+                $changed = $item->modified;
 
-  //              $teacher = preg_replace('/^.*-\s*/', '', $teacher);
+                $teacher = preg_replace('/^.*-\s*/', '', $teacher);
 
-  //              if(empty($item->locations)){
-		// 			$item->locations = array('onbekend');
-		// 		}
+                if(empty($item->locations)){
+					$item->locations = array('onbekend');
+				}
 
-  //              $result['days'][$curwd]['items'][] = array(
-  //                  'title' => $vakname,
-  //                  'subtitle' => 'Lokaal ' . $item->locations[0],
-  //                  'teacher' => strtoupper($teacher),
-  //                  'cancelled' => $cancelled,
-  //                  'moved' => $moved,
-  //                  'start' => $start,
-  //                  'start_str' => date('H:i', $start)
-  //              );
-  //          }
-  //          $curday += 86400;
+                $result['days'][$curwd]['items'][] = array(
+                    'title' => $vakname,
+                    'subtitle' => 'Lokaal ' . $item->locations[0],
+                    'teacher' => strtoupper($teacher),
+                    'cancelled' => $cancelled,
+                    'moved' => $moved,
+                    'start' => $start,
+                    'start_str' => date('H:i', $start)
+                );
+            }
+            $curday += 86400;
 		}
-        return $data;
+        return $result;
     }
 
     private function dutchDayName($time){
