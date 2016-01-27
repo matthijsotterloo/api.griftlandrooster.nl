@@ -197,6 +197,7 @@ class Handler implements \Core\Handler {
         }
         return $result;
     }
+    
     private function dutchDayName($time){
         switch(date('N', $time)){
             case 1:
@@ -211,6 +212,7 @@ class Handler implements \Core\Handler {
                 return 'Vrijdag';
         }
     }
+    
     private function getFirstDayOfWeek($year, $weeknr) {
         $offset = date('w', mktime(0, 0, 0, 1, 1, $year));
         $offset = ($offset < 5) ? 1 - $offset : 8 - $offset;
