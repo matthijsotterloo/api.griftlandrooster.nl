@@ -154,7 +154,8 @@ class Handler implements \Core\Handler {
 	            	foreach ($day['items'] as $item)
 	            	{
             			$t = $item['start_str'];
-            			if ($t > $break_time)
+            			// $t > $break_time
+            			if ($t == $break_time)
             			{
 	            			$day_item = array(
 	            				'title' => 'Pauze',
