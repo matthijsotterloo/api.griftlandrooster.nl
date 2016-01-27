@@ -158,9 +158,10 @@ class Handler implements \Core\Handler {
             	{
             		if ($time != $t)
             		{
-            			$free_hour = new \stdClass();
-            			$free_hour->title = 'Geen les';
-            			$free_hour->start_str = $time;
+            			$free_hour = array(
+            				'title' => 'Geen les',
+            				'start_str' => $time
+            				);
             			$free_hours[] = $free_hour;
             		}
             		else
@@ -177,9 +178,10 @@ class Handler implements \Core\Handler {
             			$t = $item->start_str;
             			if ($t > $break_time)
             			{
-	            			$day_item = new \stdClass();
-	            			$day_item->title = 'Pauze';
-	            			$day_item->start_str = $break_time;
+	            			$day_item = array(
+	            				'title' => 'Pauze',
+	            				'start_str' => $break_time
+	            				);
             				$day_items[] = $day_item;
             			}
             			$day_items[] = $item;
