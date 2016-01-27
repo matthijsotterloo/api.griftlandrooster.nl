@@ -370,10 +370,13 @@ class ZermeloHelper
 
 			if ($node['cancelled'] == true)
  			{
+ 				if(!empty($grid[$i - 2])) 
+ 				{
  			     	if ($grid[$i - 2]['start'] == $node['start'])
  			     	{
  			     	    unset($grid[$key]);
  			     	}
+		     	}
  			}
 		}
 
