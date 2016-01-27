@@ -176,7 +176,7 @@ class Handler implements \Core\Handler {
             	{
 	            	foreach ($day['items'] as $item)
 	            	{
-            			$t = $item->start_str;
+            			$t = $item['start_str'];
             			if ($t > $break_time)
             			{
 	            			$day_item = array(
