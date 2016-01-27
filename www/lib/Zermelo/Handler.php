@@ -169,7 +169,6 @@ class Handler implements \Core\Handler {
             			}
             		}
             			$day_items[] = $item;
-	            }
             	}
             	$result['days'][$i]['items'] = $day_items;
             }
