@@ -126,7 +126,7 @@ class Handler implements \Core\Handler {
 	        $item = (object)$item;
 	        $start = ((int)$item->start);
                 $vakname = isset($subjects[$item->subjects[0]]) ? $subjects[$item->subjects[0]] : $item->subjects[0];
-                $teacher = $item->teachers[0];
+                $teacher = isset($item->teachers[0]) ? $item->teachers[0] : $item->teachers;
                 $cancelled = $item->cancelled;
                 $moved  = $item->moved;
                 $cancelled = $item->cancelled;
