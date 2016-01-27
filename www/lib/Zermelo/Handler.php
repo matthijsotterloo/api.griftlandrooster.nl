@@ -95,6 +95,7 @@ class Handler implements \Core\Handler {
 
         $subjects = (array) json_decode(file_get_contents('lib/Assets/subjects.json'));
 
+		$tz = timezone_open('Europe/Amsterdam');
         $tz_offset = timezone_offset_get($tz, new \DateTime('@'.$timestamp, timezone_open('UTC')));
 
         $timestamp += $tz_offset+4;
@@ -116,15 +117,15 @@ class Handler implements \Core\Handler {
                 'items' => array()
             );
 
-		$start = $curday;
-		$end = $curday + 86399;
+			$start = $curday;
+			$end = $curday + 86399;
         	$data = $this->zermelo->getStudentGrid($start, $end);
 
             foreach($data as $item){
 	        $item = (object)$item;
 	        $start = ((int)$item->start);
                 $vakname = isset($subjects[$item->subjects[0]]) ? $subjects[$item->subjects[0]] : $item->subjects[0];
-                $teacher = $item->teachers[0];
+                $teacher = isset($item->teachers[0]) ? $item->teachers[0] : "";
                 $cancelled = $item->cancelled;
                 $moved  = $item->moved;
                 $cancelled = $item->cancelled;
