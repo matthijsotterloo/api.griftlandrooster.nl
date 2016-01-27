@@ -147,7 +147,7 @@ class Handler implements \Core\Handler {
   //              );
   //          }
   //          $curday += 86400;
-		// }
+		}
         return $data;
     }
 
