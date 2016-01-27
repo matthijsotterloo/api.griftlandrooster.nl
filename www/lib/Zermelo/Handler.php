@@ -2,16 +2,12 @@
 /*
  * Copyright 2015 Matthijs Otterloo.
  */
-
 namespace Zermelo;
-
 class Handler implements \Core\Handler {
-
     /**
      * @var ZermeloHelper
      */
     private $zermelo;
-
     /**
      * Handler name
      *
@@ -20,7 +16,6 @@ class Handler implements \Core\Handler {
     function handlerSlug() {
         return 'zermelo';
     }
-
     /**
      * Set user credentials
      *
@@ -32,19 +27,15 @@ class Handler implements \Core\Handler {
         $this->zermelo = new ZermeloHelper($siteID);
         $this->zermelo->grabAccessToken($username, $password);
     }
-
     function getSchools(){
 	    $domains = json_decode(file_get_contents('lib/Assets/zportal-domains.json'));
-
 	    $portals = array();
 	    foreach($domains as $domain){
 		    $domain = str_replace('.zportal.nl','', $domain);
 		    $portals[] = array('site' => $domain, 'title' => strlen($domain) < 5 ? strtoupper($domain) : ucfirst($domain));
 	    }
-
 	    return array('sites' => $portals);
     }
-
     /**
      * Get user info
      *
@@ -65,20 +56,17 @@ class Handler implements \Core\Handler {
                 'provider_error' => 'Deze user bestaat niet!'
             );
         }
-
         if($person->status == '401'){
 	        return array(
 		        'provider_error' => 'Gebruiker is niet ingelogd.'
 	        );
         }
-
         $info = array(
             'name' => str_replace('  ', ' ', $person->firstName . ' ' . $person->prefix . ' ' . $person->lastName),
             'username' => $person->code
         );
         return $info;
     }
-
     /**
      * Get weekly shedule for a particular day
      *
@@ -86,29 +74,23 @@ class Handler implements \Core\Handler {
      * @return array
      */
     function getSchedule($timestamp) {
-
         if(!$this->zermelo->token){
             return 403;
         }
         
         $times = array('08:30', '09:30', '11:00', '12:00', '13:30', '14:30', '15:30');
         $break_times = array('10:30', '13:00');
-
         $subjects = (array) json_decode(file_get_contents('lib/Assets/subjects.json'));
 	
 	$tz = timezone_open('Europe/Amsterdam');
         $tz_offset = timezone_offset_get($tz, new \DateTime('@'.$timestamp, timezone_open('UTC')));
-
         $timestamp += $tz_offset+4;
-
         $weekstart = $this->getFirstDayOfWeek(date('Y', $timestamp), date('W', $timestamp));
         $weekend = strtotime('this Friday', $weekstart);
-
         $result = array(
             'week_timestamp' => $weekstart,
             'days' => array()
         );
-
         $curday = $weekstart;
         while($curday <= $weekend){
             $curwd = (int) date('w', $curday);
@@ -117,11 +99,9 @@ class Handler implements \Core\Handler {
                 'day_ofweek' => (int)date('w', $curday),
                 'items' => array()
             );
-
 		$start = $curday;
 		$end = $curday + 86399;
         	$data = $this->zermelo->getStudentGrid($start, $end);
-
             foreach($data as $item){
 	        $item = (object)$item;
 	        $start = ((int)$item->start);
@@ -131,13 +111,10 @@ class Handler implements \Core\Handler {
                 $moved  = $item->moved;
                 $cancelled = $item->cancelled;
                 $changed = $item->modified;
-
                 $teacher = preg_replace('/^.*-\s*/', '', $teacher);
-
                 if(empty($item->locations)){
 			$item->locations = array('onbekend');
 		}
-
                 $result['days'][$curwd]['items'][] = array(
                     'title' => $vakname,
                     'subtitle' => 'Lokaal ' . $item->locations[0],
@@ -172,34 +149,30 @@ class Handler implements \Core\Handler {
             	
             	// Breaks.
             	$day_items = array();
-            	
+            	foreach ($break_times as $break_time)
+            	{
 	            	foreach ($day['items'] as $item)
 	            	{
-	            		foreach ($break_times as $break_time)
+            			$t = $item['start_str'];
+            			if ($t > $break_time)
             			{
-	            			$t = $item['start_str'];
-	            			
-	            			if ($t > $break_time)
-	            			{
-		            			$day_item = array(
-		            				'title' => 'Pauze',
-		            				'start_str' => $break_time
-		            			);
-	            				$day_items[] = $day_item;
-	            			}
-	            			$day_items[] = $item;	
-				}
-				$result['days'][$i]['items'] = $day_items;
-            		}
-            	
+	            			$day_item = array(
+	            				'title' => 'Pauze',
+	            				'start_str' => $break_time
+	            				);
+            				$day_items[] = $day_item;
+            			} else {
+            				$day_items[] = $item;	
+            			}
+					}
+            	}
+            	$result['days'][$i]['items'] = $day_items;
             }
             
             $curday += 86400;
 		}
-
         return $result;
     }
-
     private function dutchDayName($time){
         switch(date('N', $time)){
             case 1:
@@ -214,7 +187,6 @@ class Handler implements \Core\Handler {
                 return 'Vrijdag';
         }
     }
-
     private function getFirstDayOfWeek($year, $weeknr) {
         $offset = date('w', mktime(0, 0, 0, 1, 1, $year));
         $offset = ($offset < 5) ? 1 - $offset : 8 - $offset;
