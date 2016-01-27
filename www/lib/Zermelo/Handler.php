@@ -184,17 +184,9 @@ class Handler implements \Core\Handler {
 	            				'start_str' => $break_time
 	            				);
             				$day_items[] = $day_item;
-<<<<<<< HEAD
             			} else {
             				$day_items[] = $item;	
             			}
-            			
-=======
-            				
-            			}
-            			$day_items[] = $item;
->>>>>>> 6d0aec0cf736fb130b2657f773c9b8517ca2030b
-	            	}
             	}
             	$result['days'][$i]['items'] = $day_items;
             }
