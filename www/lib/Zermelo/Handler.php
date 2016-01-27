@@ -81,6 +81,8 @@ class Handler implements \Core\Handler {
         $times = array('08:30', '09:30', '11:00', '12:00', '13:30', '14:30', '15:30');
         $break_times = array('10:30', '13:00');
         $subjects = (array) json_decode(file_get_contents('lib/Assets/subjects.json'));
+	
+	$tz = timezone_open('Europe/Amsterdam');
         $tz_offset = timezone_offset_get($tz, new \DateTime('@'.$timestamp, timezone_open('UTC')));
         $timestamp += $tz_offset+4;
         $weekstart = $this->getFirstDayOfWeek(date('Y', $timestamp), date('W', $timestamp));
@@ -104,7 +106,7 @@ class Handler implements \Core\Handler {
 	        $item = (object)$item;
 	        $start = ((int)$item->start);
                 $vakname = isset($subjects[$item->subjects[0]]) ? $subjects[$item->subjects[0]] : $item->subjects[0];
-                $teacher = $item->teachers[0];
+                $teacher = isset($item->teachers[0]) ? $item->teachers[0] : $item->teachers;
                 $cancelled = $item->cancelled;
                 $moved  = $item->moved;
                 $cancelled = $item->cancelled;
@@ -151,7 +153,7 @@ class Handler implements \Core\Handler {
             	{
 	            	foreach ($day['items'] as $item)
 	            	{
-            			$t = $item->start_str;
+            			$t = $item['start_str'];
             			if ($t > $break_time)
             			{
 	            			$day_item = array(
@@ -160,6 +162,7 @@ class Handler implements \Core\Handler {
 	            				);
             				$day_items[] = $day_item;
             			}
+            			echo $i;
             			$day_items[] = $item;
 	            	}
             	}
@@ -168,7 +171,6 @@ class Handler implements \Core\Handler {
             
             $curday += 86400;
 		}
-            print_r($result);
         return $result;
     }
     private function dutchDayName($time){
