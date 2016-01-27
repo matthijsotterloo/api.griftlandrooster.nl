@@ -92,7 +92,7 @@ class Handler implements \Core\Handler {
         }
         
         $times = array('08:30', '09:30', '11:00', '12:00', '13:30', '14:30', '15:30');
-        $break_times = array('10:30', '13:00');
+         = array('10:30', '13:00');
 
         $subjects = (array) json_decode(file_get_contents('lib/Assets/subjects.json'));
 
@@ -187,6 +187,7 @@ class Handler implements \Core\Handler {
             	}
             	$result['days'][$i]['items'] = $day_items;
             }
+            print_r($result);
             
             $curday += 86400;
 		}
