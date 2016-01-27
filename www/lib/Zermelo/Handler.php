@@ -158,7 +158,7 @@ class Handler implements \Core\Handler {
             	{
             		if ($time != $t)
             		{
-            			$free_hour = new stdClass();
+            			$free_hour = new \stdClass();
             			$free_hour->title = 'Geen les';
             			$free_hours[] = $free_hour;
             		}
