@@ -159,21 +159,17 @@ class Handler implements \Core\Handler {
             		
             			if ($t > $break_time)
             			{
-            				if ($i != $t)
-            				{
-            				      echo "Tijd: $t Break tijd $break_time";
+            			      echo "Tijd: $t Break tijd $break_time";
             				
-	            				$day_item = array(
-	            						'title' => 'Pauze',
-	            					'start_str' => $break_time
+	            		      $day_item = array(
+	            				'title' => 'Pauze',
+	            				'start_str' => $break_time
 	            				);
-            					$day_items[] = $day_item;	
-            				}
-
-            				$i = $t;
+            				$day_items[] = $day_item;	
             			}
+            		}
             			$day_items[] = $item;
-	            	}
+	            }
             	}
             	$result['days'][$i]['items'] = $day_items;
             }
