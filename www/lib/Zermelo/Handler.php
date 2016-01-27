@@ -181,7 +181,6 @@ class Handler implements \Core\Handler {
 	            			
 	            			if ($t > $break_time)
 	            			{
-	            				echo $break_time . "<br />"; 
 		            			$day_item = array(
 		            				'title' => 'Pauze',
 		            				'start_str' => $break_time
