@@ -155,8 +155,10 @@ class Handler implements \Core\Handler {
 	            	{
             			$t = $item['start_str'];
             			// $t > $break_time
+            			
             			if ($t > $break_time)
             			{
+            				echo "Time: " . $t . " Break time: " . $break_time; 
 	            			$day_item = array(
 	            				'title' => 'Pauze',
 	            				'start_str' => $break_time
