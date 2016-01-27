@@ -171,7 +171,7 @@ class Handler implements \Core\Handler {
             
             $curday += 86400;
 		}
-        return $result;
+        return $result;	
     }
     private function dutchDayName($time){
         switch(date('N', $time)){
