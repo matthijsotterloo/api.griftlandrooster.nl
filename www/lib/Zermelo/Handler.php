@@ -92,7 +92,7 @@ class Handler implements \Core\Handler {
         }
         
         $times = array('08:30', '09:30', '11:00', '12:00', '13:30', '14:30', '15:30');
-         = array('10:30', '13:00');
+        $break_times = array('10:30', '13:00');
 
         $subjects = (array) json_decode(file_get_contents('lib/Assets/subjects.json'));
 
@@ -169,6 +169,23 @@ class Handler implements \Core\Handler {
             	$result['days'][$i]['items'] = array_merge($free_hours, $day['items']);
             	
             	// Breaks.
+            	$day_items = array();
+            	foreach ($break_times as $break_time)
+            	{
+	            	foreach ($day['items'] as $item)
+	            	{
+            			$t = $item->start_str;
+            			if ($t > $break_time)
+            			{
+	            			$day_item = new \stdClass();
+	            			$day_item->title = 'Pauze';
+	            			$day_item->start_str = $break_time;
+            				$day_items[] = $day_item;
+            			}
+            			$day_items[] = $item;
+	            	}
+            	}
+            	$result['days'][$i]['items'] = $day_items;
             }
             print_r($result);
             
