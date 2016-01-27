@@ -88,112 +88,113 @@ class Handler implements \Core\Handler {
      */
     function getSchedule($timestamp) {
     
-        if(!$this->zermelo->token){
-            return 403;
+	        if(!$this->zermelo->token){
+	            return 403;
+	        }
+	        
+	        $times = array('08:30', '09:30', '11:00', '12:00', '13:30', '14:30', '15:30');
+	        $break_times = array('10:30', '13:00');
+	        
+	        $subjects = (array) json_decode(file_get_contents('lib/Assets/subjects.json'));
+		
+			$tz = timezone_open('Europe/Amsterdam');
+	        $tz_offset = timezone_offset_get($tz, new \DateTime('@'.$timestamp, timezone_open('UTC')));
+	        
+	        $timestamp += $tz_offset+4;
+	        
+	        $weekstart = $this->getFirstDayOfWeek(date('Y', $timestamp), date('W', $timestamp));
+	        $weekend = strtotime('this Friday', $weekstart);
+	        
+	        $result = array(
+	            'week_timestamp' => $weekstart,
+	            'days' => array()
+	        );
+	        
+	        $curday = $weekstart;
+	        while($curday <= $weekend){
+	            $curwd = (int) date('w', $curday);
+	            $result['days'][$curwd] = array(
+	                'day_title' => $this->dutchDayName($curday),
+	                'day_ofweek' => (int)date('w', $curday),
+	                'items' => array()
+	            );
+	            
+			$start = $curday;
+			$end = $curday + 86399;
+	    	$data = $this->zermelo->getStudentGrid($start, $end);
+	        	
+	        foreach($data as $item){
+				$item = (object)$item;
+		        $start = ((int)$item->start);
+	            $vakname = isset($subjects[$item->subjects[0]]) ? $subjects[$item->subjects[0]] : $item->subjects[0];
+	            $teacher = isset($item->teachers[0]) ? $item->teachers[0] : "Onbekend";
+	            $cancelled = $item->cancelled;
+	            $moved  = $item->moved;
+	            $cancelled = $item->cancelled;
+	            $changed = $item->modified;
+	            $teacher = preg_replace('/^.*-\s*/', '', $teacher);
+	            
+	            if(empty($item->locations)){
+					$item->locations = array('onbekend');
+				}
+	                
+	            $result['days'][$curwd]['items'][] = array(
+		            'title' => $vakname,
+		            'subtitle' => 'Lokaal ' . $item->locations[0],
+		            'teacher' => strtoupper($teacher),
+		            'cancelled' => $cancelled,
+		            'moved' => $moved,
+		            'start' => $start,
+		            'start_str' => date('H:i', $start)
+	            );
+	        }
+	            
+	        foreach($result['days'] as $i => $day)
+	        {
+	        	$t = $day['items'][0]['start_str'];
+	        	$free_hours = array();
+	        	
+	        	// Free hours at the start of the day.
+	        	foreach ($times as $time)
+	        	{
+	        		if ($time != $t)
+	        		{
+	        			$free_hour = array(
+	        				'title' => 'Geen les',
+	        				'start_str' => $time
+	        				);
+	        			$free_hours[] = $free_hour;
+	        		} else {
+	        			break;
+	    			}
+	        	}
+	        	
+	        	$result['days'][$i]['items'] = array_merge($free_hours, $day['items']);
+	        	
+	        	// Breaks.
+	        	$day_items = array();
+	        	foreach ($break_times as $break_time)
+	        	{
+	            	foreach ($day['items'] as $item)
+	            	{
+	        			$t = $item['start_str'];
+	        			if ($t > $break_time)
+	        			{
+	            			$day_item = array(
+	            				'title' => 'Pauze',
+	            				'start_str' => $break_time
+	            				);
+	        				$day_items[] = $day_item;
+	        			}
+	        			
+	        			$day_items[] = $item;
+	            	}
+	        	}
+	        	
+	        	$result['days'][$i]['items'] = $day_items;
+	        }    
+	        $curday += 86400;
         }
-        
-        $times = array('08:30', '09:30', '11:00', '12:00', '13:30', '14:30', '15:30');
-        $break_times = array('10:30', '13:00');
-        
-        $subjects = (array) json_decode(file_get_contents('lib/Assets/subjects.json'));
-	
-		$tz = timezone_open('Europe/Amsterdam');
-        $tz_offset = timezone_offset_get($tz, new \DateTime('@'.$timestamp, timezone_open('UTC')));
-        
-        $timestamp += $tz_offset+4;
-        
-        $weekstart = $this->getFirstDayOfWeek(date('Y', $timestamp), date('W', $timestamp));
-        $weekend = strtotime('this Friday', $weekstart);
-        
-        $result = array(
-            'week_timestamp' => $weekstart,
-            'days' => array()
-        );
-        
-        $curday = $weekstart;
-        while($curday <= $weekend){
-            $curwd = (int) date('w', $curday);
-            $result['days'][$curwd] = array(
-                'day_title' => $this->dutchDayName($curday),
-                'day_ofweek' => (int)date('w', $curday),
-                'items' => array()
-            );
-            
-		$start = $curday;
-		$end = $curday + 86399;
-    	$data = $this->zermelo->getStudentGrid($start, $end);
-        	
-        foreach($data as $item){
-			$item = (object)$item;
-	        $start = ((int)$item->start);
-            $vakname = isset($subjects[$item->subjects[0]]) ? $subjects[$item->subjects[0]] : $item->subjects[0];
-            $teacher = isset($item->teachers[0]) ? $item->teachers[0] : "Onbekend";
-            $cancelled = $item->cancelled;
-            $moved  = $item->moved;
-            $cancelled = $item->cancelled;
-            $changed = $item->modified;
-            $teacher = preg_replace('/^.*-\s*/', '', $teacher);
-            
-            if(empty($item->locations)){
-				$item->locations = array('onbekend');
-			}
-                
-            $result['days'][$curwd]['items'][] = array(
-	            'title' => $vakname,
-	            'subtitle' => 'Lokaal ' . $item->locations[0],
-	            'teacher' => strtoupper($teacher),
-	            'cancelled' => $cancelled,
-	            'moved' => $moved,
-	            'start' => $start,
-	            'start_str' => date('H:i', $start)
-            );
-        }
-            
-        foreach($result['days'] as $i => $day)
-        {
-        	$t = $day['items'][0]['start_str'];
-        	$free_hours = array();
-        	
-        	// Free hours at the start of the day.
-        	foreach ($times as $time)
-        	{
-        		if ($time != $t)
-        		{
-        			$free_hour = array(
-        				'title' => 'Geen les',
-        				'start_str' => $time
-        				);
-        			$free_hours[] = $free_hour;
-        		} else {
-        			break;
-    			}
-        	}
-        	
-        	$result['days'][$i]['items'] = array_merge($free_hours, $day['items']);
-        	
-        	// Breaks.
-        	$day_items = array();
-        	foreach ($break_times as $break_time)
-        	{
-            	foreach ($day['items'] as $item)
-            	{
-        			$t = $item['start_str'];
-        			if ($t > $break_time)
-        			{
-            			$day_item = array(
-            				'title' => 'Pauze',
-            				'start_str' => $break_time
-            				);
-        				$day_items[] = $day_item;
-        			}
-        			
-        			$day_items[] = $item;
-            	}
-        	}
-        	
-        	$result['days'][$i]['items'] = $day_items;
-        }    
-        $curday += 86400;
         return $result;
     }
     private function dutchDayName($time){
