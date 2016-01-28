@@ -151,12 +151,12 @@ class Handler implements \Core\Handler {
 			$curday += 86400;
 		}
 
-		foreach($result['days'] as $i => $day)
+		// Free hours at the start of the day.
+		foreach ($result['days'] as $i => $day)
 		{
 			$start_str  = $day['items'][0]['start_str'];
 			$free_hours = array();
 
-			// Free hours at the start of the day.
 			foreach ($times as $time)
 			{
 				if ($time != $start_str)
@@ -166,14 +166,18 @@ class Handler implements \Core\Handler {
 						'start_str' => $time
 						);
 					$free_hours[] = $free_hour;
-				} else {
-					break;
 				}
+				else
+					break;
 			}
+			print_r($free_hours);
 
 			$result['days'][$i]['items'] = array_merge($free_hours, $day['items']);
+		}
 
-			// Breaks.
+		// Breaks.
+		foreach ($result['days'] as $i => $day)
+		{
 			$day_items = array();
 			$prev_time = '00:00';
 			$j         = 0;
@@ -192,7 +196,7 @@ class Handler implements \Core\Handler {
 
 			$result['days'][$i]['items'] = $day_items;
 		}
-		
+
 		return $result;
 	}
 	
