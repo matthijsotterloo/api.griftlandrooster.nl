@@ -158,7 +158,7 @@ class Handler implements \Core\Handler {
 					if ($time != $start_str)
 					{
 						$free_hour = array(
-							'title' => 'Geen les',
+							'title'     => 'Geen les',
 							'start_str' => $time
 							);
 						$free_hours[] = $free_hour;
@@ -167,74 +167,26 @@ class Handler implements \Core\Handler {
 					}
 				}
 
-				$merge = array_merge($free_hours, $day['items']);
+				$result['days'][$i]['items'] = array_merge($free_hours, $day['items']);
 
-	        	// Breaks.
-<<<<<<< HEAD
-	        	$day_items = array();
-	        	foreach ($break_times as $break_time)
-	        	{
-	            	foreach ($day['items'] as $item)
-	            	{	        			
-	        			if(in_array(date('H:i', strtotime($item['start_str']) - 1800),$break_times))
-	        			{
-	            			$day_item = array(
-	            				'title' => 'Pauze',
-	            				'start' => strtotime($break_time),
-					            'start_str' => $break_time
-	            				);
-	        				
-	        				$day_items[] = $day_item;
-	        			}	        				            	
-	            	}
-	        	}
-	        	
-	        	$result['days'][$i]['items'] = array_merge($merge,$day_items);
-	        }    
-	        $curday += 86400;
-        }
-        return $result;
-    }
-    
-    private function dutchDayName($time){
-        switch(date('N', $time)){
-            case 1:
-                return 'Maandag';
-            case 2:
-                return 'Dinsdag';
-            case 3:
-                return 'Woensdag';
-            case 4:
-                return 'Donderdag';
-            case 5:
-                return 'Vrijdag';
-        }
-    }
-    
-    private function getFirstDayOfWeek($year, $weeknr) {
-        $offset = date('w', mktime(0, 0, 0, 1, 1, $year));
-        $offset = ($offset < 5) ? 1 - $offset : 8 - $offset;
-        $monday = mktime(0, 0, 0, 1, 1 + $offset, $year);
-        return strtotime('+' . ($weeknr - 1) . ' weeks', $monday);
-    }
-}
-=======
+				// Breaks.
 				$day_items = array();
-				foreach ($break_times as $break_time)
+				$prev_time = '00:00';
+				$j = 0;
+				foreach ($day['items'] as $item)
 				{
-					foreach ($day['items'] as $item)
-					{	        			
-						if(in_array(date('H:i', strtotime($item['start_str']) - 1800),$break_times))
-						{
-							$day_item = array(
-								'title' => 'Pauze',
-								'start_str' => $break_time
-								);
-
-							$day_items[] = $day_item;
-						}	        				            	
+					if (($j < count($break_times)) && ($prev_time < $break_times[$j]) && ($item['start_str'] > $break_times[$j]))
+					{
+						$day_items[] = array(
+							'title'     => 'Pauze',
+							'start_str' => $break_time
+							);
+						$j++;
 					}
+					$day_items[] = $item;
 				}
+
+				$result['days'][$i]['items'] = $day_items;
 
 				$result['days'][$i]['items'] = array_merge($merge,$day_items);
 			}
@@ -265,4 +217,3 @@ class Handler implements \Core\Handler {
 		return strtotime('+' . ($weeknr - 1) . ' weeks', $monday);
 	}
 }
->>>>>>> e9ba497094f4fcca87dc451633859551038bed9d
