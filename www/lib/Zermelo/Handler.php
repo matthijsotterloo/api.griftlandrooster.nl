@@ -170,7 +170,6 @@ class Handler implements \Core\Handler {
 				else
 					break;
 			}
-			print_r($free_hours);
 
 			$result['days'][$i]['items'] = array_merge($free_hours, $day['items']);
 		}
