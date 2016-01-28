@@ -185,6 +185,9 @@ class ZermeloHelper
 		return null;
 	}
 
+	/**
+	 * Get someones contact details
+	 */
 	public function getPerson(){
 		$raw = $this->callApi('api/v2/users/~me', array('access_token'=> $this->token));
 		$json = json_decode($raw, true)['response'];
@@ -352,7 +355,11 @@ class ZermeloHelper
  			     {
  			         unset($grid[$key]);
  			     }
+<<<<<<< HEAD
  			 }
+=======
+ 			 } 
+>>>>>>> 6ab61bab3c49490ff2c7efbfbac9565e310689fc
 		}
 		array_multisort($timestamps, SORT_ASC, $grid);
 
