@@ -169,17 +169,15 @@ class Handler implements \Core\Handler {
 	    			}
 	        	}
 	        	
-	        	$result['days'][$i]['items'] = array_merge($free_hours, $day['items']);
+	        	$merge = array_merge($free_hours, $day['items']);
 	        	
 	        	// Breaks.
 	        	$day_items = array();
 	        	foreach ($break_times as $break_time)
 	        	{
 	            	foreach ($day['items'] as $item)
-	            	{
-	        			$t = $item['start_str'];
-	        			
-	        			if(in_array(date('H:i', strtotime($t) - 1800),$break_times))
+	            	{	        			
+	        			if(in_array(date('H:i', strtotime($item['start_str']) - 1800),$break_times))
 	        			{
 	            			$day_item = array(
 	            				'title' => 'Pauze',
@@ -187,14 +185,11 @@ class Handler implements \Core\Handler {
 	            				);
 	        				
 	        				$day_items[] = $day_item;
-	        			}
-	        			
-	        			$day_items[] = $item;
-	            	
+	        			}	        				            	
 	            	}
 	        	}
 	        	
-/* 	        	$result['days'][$i]['items'] = $day_items; */
+	        	$result['days'][$i]['items'] = array_merge($merge,$day_items);
 	        }    
 	        $curday += 86400;
         }
