@@ -109,43 +109,47 @@ class Handler implements \Core\Handler {
 			);
 
 		$curday = $weekstart;
-		while($curday <= $weekend){
+		while ($curday <= $weekend)
+		{
 			$curwd = (int) date('w', $curday);
 			$result['days'][$curwd] = array(
-				'day_title' => $this->dutchDayName($curday),
+				'day_title'  => $this->dutchDayName($curday),
 				'day_ofweek' => (int)date('w', $curday),
-				'items' => array()
+				'items'      => array()
 				);
 
 			$start = $curday;
 			$end = $curday + 86399;
 			$data = $this->zermelo->getStudentGrid($start, $end);
 
-			foreach($data as $item){
-				$item = (object)$item;
-				$start = ((int)$item->start);
-				$vakname = isset($subjects[$item->subjects[0]]) ? $subjects[$item->subjects[0]] : $item->subjects[0];
-				$teacher = isset($item->teachers[0]) ? $item->teachers[0] : "Onbekend";
+			foreach ($data as $item)
+			{
+				$item      = (object)$item;
+				$start     = ((int)$item->start);
+				$vakname   = isset($subjects[$item->subjects[0]]) ? $subjects[$item->subjects[0]] : $item->subjects[0];
+				$teacher   = isset($item->teachers[0]) ? $item->teachers[0] : "Onbekend";
 				$cancelled = $item->cancelled;
-				$moved  = $item->moved;
+				$moved     = $item->moved;
 				$cancelled = $item->cancelled;
-				$changed = $item->modified;
-				$teacher = preg_replace('/^.*-\s*/', '', $teacher);
+				$changed   = $item->modified;
+				$teacher   = preg_replace('/^.*-\s*/', '', $teacher);
 
 				if(empty($item->locations)){
 					$item->locations = array('onbekend');
 				}
 
 				$result['days'][$curwd]['items'][] = array(
-					'title' => $vakname,
-					'subtitle' => 'Lokaal ' . $item->locations[0],
-					'teacher' => strtoupper($teacher),
+					'title'     => $vakname,
+					'subtitle'  => 'Lokaal ' . $item->locations[0],
+					'teacher'   => strtoupper($teacher),
 					'cancelled' => $cancelled,
-					'moved' => $moved,
-					'start' => $start,
+					'moved'     => $moved,
+					'start'     => $start,
 					'start_str' => date('H:i', $start)
 					);
 			}
+			$curday += 86400;
+		}
 
 			foreach($result['days'] as $i => $day)
 			{
@@ -172,7 +176,7 @@ class Handler implements \Core\Handler {
 				// Breaks.
 				$day_items = array();
 				$prev_time = '00:00';
-				$j = 0;
+				$j         = 0;
 				foreach ($day['items'] as $item)
 				{
 					if (($j < count($break_times)) && ($prev_time < $break_times[$j]) && ($item['start_str'] > $break_times[$j]))
@@ -188,7 +192,6 @@ class Handler implements \Core\Handler {
 
 				$result['days'][$i]['items'] = $day_items;
 			}
-			$curday += 86400;
 		}
 		return $result;
 	}
