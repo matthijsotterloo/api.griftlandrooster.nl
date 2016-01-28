@@ -352,9 +352,7 @@ class ZermeloHelper
  			     {
  			         unset($grid[$key]);
  			     }
-
  			 }
-
 		}
 		array_multisort($timestamps, SORT_ASC, $grid);
 
