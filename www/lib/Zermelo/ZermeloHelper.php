@@ -355,12 +355,9 @@ class ZermeloHelper
  			     {
  			         unset($grid[$key]);
  			     }
-<<<<<<< HEAD
  			 }
-=======
- 			 } 
->>>>>>> 6ab61bab3c49490ff2c7efbfbac9565e310689fc
-		}
+ 		}
+		
 		array_multisort($timestamps, SORT_ASC, $grid);
 
 		$i = 0;
