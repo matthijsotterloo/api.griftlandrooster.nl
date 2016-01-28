@@ -372,17 +372,6 @@ class ZermeloHelper
  			     	}
 		     	}
  			}
- 			
- 			if ($node['moved'] == true)
- 			{
- 				if(!empty($grid[$i - 2])) 
- 				{
- 			     	if ($grid[$i - 2]['start'] == $node['start'])
- 			     	{
- 			     	    unset($grid[$key]);
- 			     	}
-		     	}
- 			}
 		}
 
 		return $grid;
