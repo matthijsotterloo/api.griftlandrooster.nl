@@ -150,21 +150,23 @@ class Handler implements \Core\Handler {
             
             foreach($result['days'] as $i => $day)
             {
-            	$t = $day['items'][0]['start_str'];
-            	$free_hours = array();
-            	
-            	foreach ($times as $time)
-            	{
-            		if ($time != $t)
-            		{
-            			$free_hour = new \stdClass();
-            			$free_hour->title = 'Geen les';
-            			$free_hour->start_str = $time;
-            			$free_hours[] = $free_hour;
-            		}
-            		else
-            			break;
-            	}
+	        	$start_str = $day['items'][0]['start_str'];
+	        	$free_hours = array();
+	        	
+	        	// Free hours at the start of the day.
+	        	foreach ($times as $time)
+	        	{
+	        		if ($time != $start_str)
+	        		{
+	        			$free_hour = array(
+	        				'title' => 'Geen les',
+	        				'start_str' => $time
+	        				);
+	        			$free_hours[] = $free_hour;
+	        		} else {
+	        			break;
+	    			}
+	        	}
             	$result['days'][$i]['items'] = array_merge($free_hours, $day['items']);
             }
             
