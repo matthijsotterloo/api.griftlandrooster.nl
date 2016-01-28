@@ -351,9 +351,14 @@ class ZermeloHelper
  			     if (self::ALLOW_DOUBLE_HOURS == false)
  			     {
  			         unset($grid[$key]);
+ 			     } else {
+ 			         // $timestamps[$key] = $node['start'];
  			     }
 
+ 			 } else {
+ 			   	//$timestamps[$key] = $node['start'];
  			 }
+
 		}
 		array_multisort($timestamps, SORT_ASC, $grid);
 
