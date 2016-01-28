@@ -187,8 +187,6 @@ class Handler implements \Core\Handler {
 				}
 
 				$result['days'][$i]['items'] = $day_items;
-
-				$result['days'][$i]['items'] = array_merge($merge,$day_items);
 			}
 			$curday += 86400;
 		}
