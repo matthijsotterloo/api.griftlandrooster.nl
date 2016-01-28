@@ -362,7 +362,7 @@ class ZermeloHelper
 		{
 			$i = $i + 1;
 
-			if ($node['cancelled'] == true)
+			if ($node['cancelled'] == true || $node['moved'] == true)
  			{
  				if(!empty($grid[$i - 2])) 
  				{
