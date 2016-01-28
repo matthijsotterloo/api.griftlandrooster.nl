@@ -151,48 +151,48 @@ class Handler implements \Core\Handler {
 			$curday += 86400;
 		}
 
-			foreach($result['days'] as $i => $day)
+		foreach($result['days'] as $i => $day)
+		{
+			$start_str  = $day['items'][0]['start_str'];
+			$free_hours = array();
+
+			// Free hours at the start of the day.
+			foreach ($times as $time)
 			{
-				$start_str = $day['items'][0]['start_str'];
-				$free_hours = array();
-
-				// Free hours at the start of the day.
-				foreach ($times as $time)
+				if ($time != $start_str)
 				{
-					if ($time != $start_str)
-					{
-						$free_hour = array(
-							'title'     => 'Geen les',
-							'start_str' => $time
-							);
-						$free_hours[] = $free_hour;
-					} else {
-						break;
-					}
+					$free_hour = array(
+						'title'     => 'Geen les',
+						'start_str' => $time
+						);
+					$free_hours[] = $free_hour;
+				} else {
+					break;
 				}
-
-				$result['days'][$i]['items'] = array_merge($free_hours, $day['items']);
-
-				// Breaks.
-				$day_items = array();
-				$prev_time = '00:00';
-				$j         = 0;
-				foreach ($day['items'] as $item)
-				{
-					if (($j < count($break_times)) && ($prev_time < $break_times[$j]) && ($item['start_str'] > $break_times[$j]))
-					{
-						$day_items[] = array(
-							'title'     => 'Pauze',
-							'start_str' => $break_times[$j]
-							);
-						$j++;
-					}
-					$day_items[] = $item;
-				}
-
-				$result['days'][$i]['items'] = $day_items;
 			}
+
+			$result['days'][$i]['items'] = array_merge($free_hours, $day['items']);
+
+			// Breaks.
+			$day_items = array();
+			$prev_time = '00:00';
+			$j         = 0;
+			foreach ($day['items'] as $item)
+			{
+				if (($j < count($break_times)) && ($prev_time < $break_times[$j]) && ($item['start_str'] > $break_times[$j]))
+				{
+					$day_items[] = array(
+						'title'     => 'Pauze',
+						'start_str' => $break_times[$j]
+						);
+					$j++;
+				}
+				$day_items[] = $item;
+			}
+
+			$result['days'][$i]['items'] = $day_items;
 		}
+		
 		return $result;
 	}
 	
