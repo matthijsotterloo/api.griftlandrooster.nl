@@ -197,7 +197,7 @@ class Handler implements \Core\Handler {
 					print_r($day);
 					$day_items[] = array(
 						'title'     => 'Pauze',
-						'start'     => strtotime(date('d-m-Y', $day['start']) . ' ' . $break_times[$j]),
+						'start'     => strtotime(date('d-m-Y', $item['start']) . ' ' . $break_times[$j]),
 						'start_str' => $break_times[$j]
 						);
 					$j++;
