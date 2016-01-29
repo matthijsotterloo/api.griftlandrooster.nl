@@ -121,6 +121,8 @@ class Handler implements \Core\Handler {
 			$start = $curday;
 			$end = $curday + 86399;
 			$data = $this->zermelo->getStudentGrid($start, $end);
+			
+			print_r($data);
 
 			foreach ($data as $item)
 			{
