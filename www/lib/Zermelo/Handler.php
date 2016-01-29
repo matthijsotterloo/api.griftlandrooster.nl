@@ -121,8 +121,6 @@ class Handler implements \Core\Handler {
 			$start = $curday;
 			$end = $curday + 86399;
 			$data = $this->zermelo->getStudentGrid($start, $end);
-			
-			print_r($data);
 
 			foreach ($data as $item)
 			{
@@ -135,7 +133,7 @@ class Handler implements \Core\Handler {
 				$cancelled   = $item->cancelled;
 				$changed     = $item->modified;
 				$changedDesc = (isset($item->changeDescription) ? $item->changeDescription : null);
-				$teacher   = preg_replace('/^.*-\s*/', '', $teacher);
+				$teacher     = preg_replace('/^.*-\s*/', '', $teacher);
 
 				if(empty($item->locations)){
 					$item->locations = array('onbekend');
