@@ -196,6 +196,7 @@ class Handler implements \Core\Handler {
 				{
 					$day_items[] = array(
 						'title'     => 'Pauze',
+						'start'     => $start + 3600,
 						'start_str' => $break_times[$j]
 						);
 					$j++;
