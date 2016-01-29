@@ -140,6 +140,14 @@ class Handler implements \Core\Handler {
 				if(empty($item->locations)){
 					$item->locations = array('onbekend');
 				}
+				
+				$explode = explode("gewijzigd naar ", $changedDesc);
+				
+				if (isset($explode[1]))
+				{
+					$changedLocation = explode(".", $explode[1]); 
+					$item->locations[0] = str_replace(" ", "", $changedLocation[0]);
+				}
 
 				$result['days'][$curwd]['items'][] = array(
 					'title'       => $vakname,
