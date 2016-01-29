@@ -194,7 +194,7 @@ class Handler implements \Core\Handler {
 			{
 				if (($j < count($break_times)) && ($prev_time < $break_times[$j]) && ($item['start_str'] > $break_times[$j]))
 				{
-					$timestampStart = (isset($item['start'] ? strtotime(date('d-m-Y', $item['start']) . ' ' . $break_times[$j] : null));
+					$timestampStart = (isset($item['start'] ? strtotime(date('d-m-Y', $item['start']) . ' ' . $break_times[$j]) : null);
 					$day_items[] = array(
 						'title'     => 'Pauze',
 						'start'     => $timestampStart,
