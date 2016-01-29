@@ -126,14 +126,15 @@ class Handler implements \Core\Handler {
 
 			foreach ($data as $item)
 			{
-				$item      = (object)$item;
-				$start     = ((int)$item->start);
-				$vakname   = isset($subjects[$item->subjects[0]]) ? $subjects[$item->subjects[0]] : $item->subjects[0];
-				$teacher   = isset($item->teachers[0]) ? $item->teachers[0] : "Onbekend";
-				$cancelled = $item->cancelled;
-				$moved     = $item->moved;
-				$cancelled = $item->cancelled;
-				$changed   = $item->modified;
+				$item        = (object)$item;
+				$start       = ((int)$item->start);
+				$vakname     = isset($subjects[$item->subjects[0]]) ? $subjects[$item->subjects[0]] : $item->subjects[0];
+				$teacher     = isset($item->teachers[0]) ? $item->teachers[0] : "Onbekend";
+				$cancelled   = $item->cancelled;
+				$moved       = $item->moved;
+				$cancelled   = $item->cancelled;
+				$changed     = $item->modified;
+				$changedDesc = (isset($item->changeDescription) ? $item->changeDescription : null);
 				$teacher   = preg_replace('/^.*-\s*/', '', $teacher);
 
 				if(empty($item->locations)){
@@ -141,13 +142,14 @@ class Handler implements \Core\Handler {
 				}
 
 				$result['days'][$curwd]['items'][] = array(
-					'title'     => $vakname,
-					'subtitle'  => 'Lokaal ' . $item->locations[0],
-					'teacher'   => strtoupper($teacher),
-					'cancelled' => $cancelled,
-					'moved'     => $moved,
-					'start'     => $start,
-					'start_str' => date('H:i', $start)
+					'title'       => $vakname,
+					'subtitle'    => 'Lokaal ' . $item->locations[0],
+					'teacher'     => strtoupper($teacher),
+					'cancelled'   => $cancelled,
+					'moved'       => $moved,
+					'description' => $changedDesc,
+					'start'       => $start,
+					'start_str'   => date('H:i', $start)
 					);
 			}
 			$curday += 86400;
