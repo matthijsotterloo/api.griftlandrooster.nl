@@ -15,7 +15,7 @@ class Handler implements \Core\Handler {
 	 *
 	 * @return string
 	 */
-	function handlerSlug() {
+	public function handlerSlug() {
 		return 'zermelo';
 	}
 	
@@ -26,12 +26,12 @@ class Handler implements \Core\Handler {
 	 * @param $username
 	 * @param $password
 	 */
-	function setCredentials($siteID, $username, $password) {
+	public function setCredentials($siteID, $username, $password) {
 		$this->zermelo = new ZermeloHelper($siteID);
 		$this->zermelo->grabAccessToken($username, $password);
 	}
 	
-	function getSchools(){
+	public function getSchools(){
 		$domains = json_decode(file_get_contents('lib/Assets/zportal-domains.json'));
 
 		$portals = array();
@@ -47,7 +47,7 @@ class Handler implements \Core\Handler {
 	 *
 	 * @return array
 	 */
-	function getUserInfo() {
+	public function getUserInfo() {
 		if(!$this->zermelo->token){
 			return array(
 				'provider_error' => 'Login details onjuist.'
@@ -84,7 +84,7 @@ class Handler implements \Core\Handler {
 	 * @param $timestamp
 	 * @return array
 	 */
-	function getSchedule($timestamp) {
+	public function getSchedule($timestamp) {
 
 		if(!$this->zermelo->token){
 			return 403;
