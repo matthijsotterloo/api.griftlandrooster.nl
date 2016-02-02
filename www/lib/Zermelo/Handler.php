@@ -26,7 +26,7 @@ class Handler implements \Core\Handler {
 	 * @param $username
 	 * @param $password
 	 */
-	public function setCredentials($siteID, $, $password) {
+	public function setCredentials($siteID, $username, $password) {
 		$this->zermelo = new ZermeloHelper($siteID);
 		$this->zermelo->grabAccessToken($username, $password);
 	}
