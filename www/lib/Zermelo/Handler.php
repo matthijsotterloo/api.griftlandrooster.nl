@@ -167,7 +167,8 @@ class Handler implements \Core\Handler {
 			$start_str  = $day['items'][0]['start_str'];
 			$free_hours = array();
 
-			foreach ($times as $time)
+			$count = count($times);
+			foreach ($times as $j => $time)
 			{
 				if ($time != $start_str)
 				{
@@ -177,7 +178,7 @@ class Handler implements \Core\Handler {
 						);
 					$free_hours[] = $free_hour;
 				}
-				else
+				if ($j == $count - 1)
 					break;
 			}
 
