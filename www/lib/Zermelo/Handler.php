@@ -185,8 +185,8 @@ class Handler implements \Core\Handler {
 					$j++;
 				}
 
-				// if ($j == $count)
-				// 	break;
+				if ($j == $count)
+					break;
 			}
 
 			$result['days'][$i]['items'] = $new_items;
