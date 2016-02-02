@@ -164,25 +164,32 @@ class Handler implements \Core\Handler {
 		// Free hours at the start of the day.
 		foreach ($result['days'] as $i => $day)
 		{
-			$start_str  = $day['items'][0]['start_str'];
-			$free_hours = array();
+			$count     = count($day['items']);
+			$new_items = array();
 
-			$count = count($times);
-			foreach ($times as $j => $time)
+			$j = 0;
+			foreach ($times as $time)
 			{
+				$start_str = $day['items'][$j]['start_str'];
 				if ($time != $start_str)
 				{
 					$free_hour = array(
 						'title'     => 'Geen les',
 						'start_str' => $time
 						);
-					$free_hours[] = $free_hour;
+					$new_items[] = $free_hour;
 				}
+				else
+				{
+					$new_items[] = $day['items'][$j];
+					$j++;
+				}
+
 				if ($j == $count - 1)
 					break;
 			}
 
-			$result['days'][$i]['items'] = array_merge($free_hours, $day['items']);
+			$result['days'][$i]['items'] = $new_items;
 		}
 
 		// Breaks.
