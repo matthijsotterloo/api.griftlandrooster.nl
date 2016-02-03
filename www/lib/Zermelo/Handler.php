@@ -175,8 +175,11 @@ class Handler implements \Core\Handler {
 				$start_str = $day['items'][$j]['start_str'];
 				if ($time != $start_str)
 				{
+					$timestampStart = (isset($day['items'][$j]['start']) ? strtotime(date('d-m-Y', $day['items'][$j]['start']) . ' ' . $time) : null);
+					
 					$free_hour = array(
 						'title'     => 'Geen les',
+						'start'     => $timestampStart,
 						'start_str' => $time
 						);
 					$new_items[] = $free_hour;
