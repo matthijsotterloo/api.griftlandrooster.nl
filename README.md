@@ -13,4 +13,3 @@ This is an API that is used in the Griftland Rooster App (Available in the App S
 This API was constructed by:
 - Matthijs Otterloo
 - Wiebe van Breukelen
-- Thomas Schoffelen
