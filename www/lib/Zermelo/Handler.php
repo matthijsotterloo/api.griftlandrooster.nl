@@ -142,6 +142,13 @@ class Handler implements \Core\Handler {
 					$item->locations = array('onbekend');
 				}
 				
+				$explodeTeacher = explode("de les is opgevangen door ", $changedDesc);
+				if (isset($explodeTeacher[1]))
+				{
+					$changedTeacher = explode(".", $explodeTeacher[1]);
+					$item->teachers[0] = str_replace(" ", "", $changedTeacher[0]);
+				}
+				
 				$explode = explode("gewijzigd naar ", $changedDesc);
 				
 				if (isset($explode[1]))
