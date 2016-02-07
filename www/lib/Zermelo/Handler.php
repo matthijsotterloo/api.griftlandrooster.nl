@@ -176,7 +176,10 @@ class Handler implements \Core\Handler {
 				{
 					$new_items[] = $day['items'][$j];
 					$j++;
-					continue;
+					if ($j == $count)
+						break;
+					else
+						continue;
 				}
 				if ($time != $start_str)
 				{
