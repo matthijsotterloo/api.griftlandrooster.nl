@@ -174,7 +174,8 @@ class Handler implements \Core\Handler {
 				$start_str = $day['items'][$j]['start_str'];
 
 				// Double entry workaround.
-				echo $start_str . ' - ' . $last_str . ' / ';
+				if ($day['day_title'] == 'Vrijdag')
+					echo $start_str . ' - ' . $last_str . ' / ';
 				while ($start_str == $last_str)
 				{
 					$new_items[] = $day['items'][$j];
