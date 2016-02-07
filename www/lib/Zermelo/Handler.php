@@ -73,9 +73,6 @@ class Handler implements \Core\Handler {
 
 		$info = array(
 			'name' => str_replace('  ', ' ', $person->firstName . ' ' . $person->prefix . ' ' . $person->lastName),
-			'firstname' => $person->firstName,
-			'prefix' => $person->prefix,
-			'lastname' => $person->lastName,
 			'username' => $person->code
 			);
 		return $info;
@@ -141,7 +138,7 @@ class Handler implements \Core\Handler {
 				if(empty($item->locations)){
 					$item->locations = array('onbekend');
 				}
-								
+				
 				$explode = explode("gewijzigd naar ", $changedDesc);
 				
 				if (isset($explode[1]))
@@ -164,34 +161,49 @@ class Handler implements \Core\Handler {
 			$curday += 86400;
 		}
 
-		// Free hours.
+		// Free hours at the start of the day.
 		foreach ($result['days'] as $i => $day)
 		{
 			$count     = count($day['items']);
 			$new_items = array();
-			$j = 0;
+
+			$j        = 0;
+			$last_str = '';
 			foreach ($times as $time)
 			{
 				$start_str = $day['items'][$j]['start_str'];
+
+				// Double entry workaround.
+				while ($start_str == $last_str)
+				{
+					$new_items[] = $day['items'][$j];
+					$j++;
+					if ($j == $count)
+						goto endloop;
+					$start_str = $day['items'][$j]['start_str'];
+				}
+
 				if ($time != $start_str)
 				{
-					$timestampStart = (isset($day['items'][$j]['start']) ? strtotime(date('d-m-Y', $day['items'][$j]['start']) . ' ' . $time) : null);
-					
 					$free_hour = array(
 						'title'     => 'Geen les',
-						'start'     => $timestampStart,
 						'start_str' => $time
 						);
 					$new_items[] = $free_hour;
+					$last_str = '';
 				}
 				else
 				{
 					$new_items[] = $day['items'][$j];
+					$last_str = $start_str;
 					$j++;
 				}
+
 				if ($j == $count)
 					break;
 			}
+			endloop:
+
 			$result['days'][$i]['items'] = $new_items;
 		}
 
