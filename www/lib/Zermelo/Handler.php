@@ -192,14 +192,14 @@ class Handler implements \Core\Handler {
 						'start_str' => $time
 						);
 					$new_items[] = $free_hour;
+					$last_str = '';
 				}
 				else
 				{
 					$new_items[] = $day['items'][$j];
+					$last_str = $start_str;
 					$j++;
 				}
-
-				$last_str = $start_str;
 
 				if ($j == $count)
 					break;
