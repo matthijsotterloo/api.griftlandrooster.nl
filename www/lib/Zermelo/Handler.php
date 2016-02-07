@@ -178,8 +178,6 @@ class Handler implements \Core\Handler {
 					$j++;
 					if ($j == $count)
 						break;
-					else
-						continue;
 				}
 				if ($time != $start_str)
 				{
