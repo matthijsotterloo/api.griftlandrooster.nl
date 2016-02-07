@@ -172,14 +172,20 @@ class Handler implements \Core\Handler {
 			foreach ($times as $time)
 			{
 				$start_str = $day['items'][$j]['start_str'];
+				$break     = false;
 				while ($start_str == $last_str)
 				{
 					$new_items[] = $day['items'][$j];
 					$j++;
 					if ($j == $count)
+					{
+						$break = true;
 						break;
+					}
 					$start_str = $day['items'][$j]['start_str'];
 				}
+				if ($break)
+					break;
 				if ($time != $start_str)
 				{
 					$free_hour = array(
