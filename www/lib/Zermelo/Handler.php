@@ -173,6 +173,7 @@ class Handler implements \Core\Handler {
 				$start_str = $day['items'][$j]['start_str'];
 				if ($time != $start_str)
 				{
+					echo $time . ' =/= ' . $start_str;
 					$free_hour = array(
 						'title'     => 'Geen les',
 						'start_str' => $time
