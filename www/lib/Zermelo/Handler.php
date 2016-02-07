@@ -172,10 +172,11 @@ class Handler implements \Core\Handler {
 			foreach ($times as $time)
 			{
 				$start_str = $day['items'][$j]['start_str'];
-				if ($start_str == $last_str)
+				while ($start_str == $last_str)
 				{
 					$new_items[] = $day['items'][$j];
 					$j++;
+					$start_str = $day['items'][$j]['start_str'];
 					if ($j == $count)
 						break;
 				}
