@@ -162,52 +162,52 @@ class Handler implements \Core\Handler {
 		}
 
 		// Free hours at the start of the day.
-		foreach ($result['days'] as $i => $day)
-		{
-			$count     = count($day['items']);
-			$new_items = array();
+		// foreach ($result['days'] as $i => $day)
+		// {
+		// 	$count     = count($day['items']);
+		// 	$new_items = array();
 
-			$j        = 0;
-			$last_str = '';
-			foreach ($times as $time)
-			{
-				$start_str = $day['items'][$j]['start_str'];
-				$break     = false;
-				while ($start_str == $last_str)
-				{
-					$new_items[] = $day['items'][$j];
-					$j++;
-					if ($j == $count)
-					{
-						$break = true;
-						break;
-					}
-					$start_str = $day['items'][$j]['start_str'];
-				}
-				if ($break)
-					break;
-				if ($time != $start_str)
-				{
-					$free_hour = array(
-						'title'     => 'Geen les',
-						'start_str' => $time
-						);
-					$new_items[] = $free_hour;
-				}
-				else
-				{
-					$new_items[] = $day['items'][$j];
-					$j++;
-				}
+		// 	$j        = 0;
+		// 	$last_str = '';
+		// 	foreach ($times as $time)
+		// 	{
+		// 		$start_str = $day['items'][$j]['start_str'];
+		// 		$break     = false;
+		// 		while ($start_str == $last_str)
+		// 		{
+		// 			$new_items[] = $day['items'][$j];
+		// 			$j++;
+		// 			if ($j == $count)
+		// 			{
+		// 				$break = true;
+		// 				break;
+		// 			}
+		// 			$start_str = $day['items'][$j]['start_str'];
+		// 		}
+		// 		if ($break)
+		// 			break;
+		// 		if ($time != $start_str)
+		// 		{
+		// 			$free_hour = array(
+		// 				'title'     => 'Geen les',
+		// 				'start_str' => $time
+		// 				);
+		// 			$new_items[] = $free_hour;
+		// 		}
+		// 		else
+		// 		{
+		// 			$new_items[] = $day['items'][$j];
+		// 			$j++;
+		// 		}
 
-				$last_str = $start_str;
+		// 		$last_str = $start_str;
 
-				if ($j == $count)
-					break;
-			}
+		// 		if ($j == $count)
+		// 			break;
+		// 	}
 
-			$result['days'][$i]['items'] = $new_items;
-		}
+		// 	$result['days'][$i]['items'] = $new_items;
+		// }
 
 		// Breaks.
 		foreach ($result['days'] as $i => $day)
