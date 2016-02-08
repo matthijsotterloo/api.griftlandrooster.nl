@@ -176,7 +176,6 @@ class Handler implements \Core\Handler {
 				// Double entry workaround.
 				while ($start_str == $last_str)
 				{
-					$new_items[] = $day['items'][$j];
 					$j++;
 					if ($j == $count)
 						goto endloop;
