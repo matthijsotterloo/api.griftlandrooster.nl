@@ -126,20 +126,6 @@ class ZermeloHelper
 	{
 		return $this->getGridPortion($grid, 'cancelled', 1);
 	}
-	
-	/**
-	 * Resolve the freehours of any given grid
-	 * @param  array $grid The containing grid
-	 * @return array       The freehours
-	 */
-	public function resolveFreehours($grid)
-	{
-		require_once('ZermeloFreehour.php');
-
-		$freehours = new ZermeloFreehour($grid);
-
-		return $freehours->parseFreehours();
-	}
 
 	/**
 	 * Get announcements, by looking forward in weeks
@@ -355,9 +341,8 @@ class ZermeloHelper
  			     {
  			         unset($grid[$key]);
  			     }
- 			 }
- 		}
-		
+ 			 } 
+		}
 		array_multisort($timestamps, SORT_ASC, $grid);
 
 		$i = 0;
