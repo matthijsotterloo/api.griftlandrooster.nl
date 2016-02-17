@@ -166,6 +166,8 @@ class Handler implements \Core\Handler {
 		{
 			$count     = count($day['items']);
 			$new_items = array();
+			
+		if(!$count === 0) {
 
 			$j        = 0;
 			$last_str = '';
@@ -207,6 +209,7 @@ class Handler implements \Core\Handler {
 			endloop:
 
 			$result['days'][$i]['items'] = $new_items;
+		}
 		}
 
 		// Breaks.
