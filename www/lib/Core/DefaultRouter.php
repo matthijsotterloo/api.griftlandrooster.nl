@@ -13,6 +13,13 @@ if (isset($app) && isset($handler)) {
     $app->param('slug', function ($request, $site) use ($app, $handler) {
         $app->param('ctype_print', function ($request, $username) use ($app, $site, $handler) {
             $app->param('ctype_print', function ($request, $password) use ($app, $site, $username, $handler) {
+            	
+            	// Check if first character is underscore
+            	if (substr($site, 0, 1) == '_')
+            	{
+            		// Remove appended underscore
+            		$site = ltrim('_', $site);
+            	}
 
                 $handler->setCredentials($site, $username, $password);
 
